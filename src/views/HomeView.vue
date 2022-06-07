@@ -6,7 +6,6 @@
       :artists="song.artists"
       :url="song.url"
       :cover="song.cover"
-      :preview="song.preview"
       :key="i"
     ></Song>
   </main>
@@ -15,28 +14,40 @@
 <script lang="ts">
 import Vue from "vue";
 import Song from "@/components/Song.vue";
-import { PropType } from "@vue/runtime-dom";
-import { mapActions } from "pinia";
-import { mapTrackToSong } from "@/models/utils";
+import { useTopStore } from "@/stores/top";
+import { buildSpotifyRedirectUrl } from "@/utils/common";
+import { SongInfo } from "@/models/Track";
 
 export default Vue.extend({
   name: "HomeView",
   data: () => ({
-    songs: [],
+    songs: [] as SongInfo[],
+    topStore: useTopStore(),
   }),
   components: { Song },
   mounted() {
-    this.getSongs();
+    const { token } = this.extractTokenFromUrl();
+    if (token) {
+      this.topStore.retrieveTopSongs({ token }).then(() => {
+        this.songs = this.topStore.songs;
+      });
+    }
+
+    if (!token) {
+      const url = buildSpotifyRedirectUrl();
+      window.location.href = url;
+    }
   },
   methods: {
-    getSongs() {
-      fetch("./server/data.json")
-        .then((response) => response.json())
-        .then((data: { items: any[] }) => {
-          data.items.map((track) => {
-            this.songs.push(mapTrackToSong(track));
-          });
-        });
+    extractTokenFromUrl(): { token: string } {
+      const r = this.$route.hash.substring(1, this.$route.hash.length - 1);
+      let p = "";
+      if (r) {
+        p = r.split("=")[1];
+      }
+      return {
+        token: p,
+      };
     },
   },
 });

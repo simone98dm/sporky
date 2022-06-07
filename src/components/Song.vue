@@ -111,8 +111,15 @@ export default Vue.extend({
       default: undefined,
     },
   },
-  data: () => ({
-    audio: new Audio(),
-  }),
+  mounted() {
+    const data = {
+      name: this.name,
+      artists: this.artists,
+      url: this.url,
+      cover: this.cover,
+      preview: this.preview,
+    };
+    console.log(data);
+  },
 });
 </script>

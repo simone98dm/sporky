@@ -41,11 +41,29 @@ export async function getTopTracks(
   })
     .then((response) => response.json() as unknown as Tracks)
     .then((response) => (response.items ? response.items : []))
+    .then((items: SongInfo[]) => {
+      let songs: any[] = [];
+      items.map((item) => {
+        const song = mapTrackToSong(item);
+        songs.push(song);
+      });
+      return songs;
+    })
     .catch((error) => {
       localStorage.removeItem(stateKey);
       console.log(error);
       return [];
     });
+}
+
+function mapTrackToSong(track: SongInfo): any {
+  return {
+    name: track.name,
+    artist: track.artists,
+    album: track.album.name,
+    cover: track.album.images[0].url,
+    url: track.uri,
+  };
 }
 
 function getHeader(access_token: string): any {
