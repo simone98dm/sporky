@@ -8,6 +8,14 @@ export interface Tracks {
   next: string;
 }
 
+export interface MappedTrack {
+  name: string;
+  artists: any[];
+  album: string;
+  cover: string;
+  url: string;
+}
+
 export interface SongInfo {
   album: Album;
   artists: Artist[];

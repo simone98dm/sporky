@@ -1,10 +1,5 @@
 import { spotifyApi, stateKey } from "./constants";
-import type {
-  Tracks,
-  SongInfo,
-  ICreatePlaylistResponse,
-  IUser,
-} from "../models/Track";
+import type { Tracks, SongInfo, IUser, MappedTrack } from "@/models/Track";
 
 export async function getUserInfo(access_token: string) {
   if (typeof access_token == "undefined") {
@@ -56,10 +51,10 @@ export async function getTopTracks(
     });
 }
 
-function mapTrackToSong(track: SongInfo): any {
+function mapTrackToSong(track: SongInfo): MappedTrack {
   return {
     name: track.name,
-    artist: track.artists,
+    artists: track.artists,
     album: track.album.name,
     cover: track.album.images[0].url,
     url: track.uri,
@@ -82,4 +77,16 @@ function buildQueryParams(params: any): string {
     }
   }
   return query;
+}
+
+export function extractTokenFromUrl(hash: string): { token: string } {
+  const r = hash.substring(1, hash.length - 1);
+  let p = "";
+  if (r) {
+    p = r.split("=")[1];
+  }
+
+  return {
+    token: p,
+  };
 }

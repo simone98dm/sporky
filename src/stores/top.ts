@@ -1,12 +1,17 @@
-import { SongInfo } from "@/models/Track";
+import { MappedTrack, SongInfo } from "@/models/Track";
 import { getTopTracks } from "@/utils/httputils";
 import { defineStore } from "pinia";
+import { useAuthStore } from "./auth";
 
 export const useTopStore = defineStore({
   id: "top",
   state: () => ({
-    songs: [] as SongInfo[],
+    songs: [] as MappedTrack[],
+    filter: "",
   }),
+  getters: {
+    getSongs: (state) => state.songs,
+  },
   actions: {
     async retrieveTopSongs(options: {
       token: string;
@@ -36,6 +41,13 @@ export const useTopStore = defineStore({
         timelimit
       );
       this.songs = songs;
+    },
+    setFilter(token: string, filter: string) {
+      this.filter = filter;
+      this.retrieveTopSongs({
+        token,
+        timespan: this.filter,
+      });
     },
   },
 });

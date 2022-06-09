@@ -1,83 +1,60 @@
 <template>
   <div
     :class="[
-      'w-screen',
-      'bg-white',
-      'dark:bg-gray-900',
+      'rounded-lg',
+      'shadow-lg',
+      'bg-neutral-600',
+      'dark:bg-gray-600',
+      'w-full',
       'flex flex-row flex-wrap',
       'p-3',
-      'overflow-hidden',
+      'antialiased',
+      'mb-5',
     ]"
+    :style="{
+      backgroundImage: 'url(' + cover + ')',
+      backgroundRepeat: 'no-repeat',
+      backgroundSize: 'cover',
+      backgroundBlendMode: 'multiply',
+    }"
   >
-    <div class="mx-auto md:w-2/3">
+    <div class="md:w-1/3 w-full">
+      <img
+        class="rounded-lg shadow-lg antialiased"
+        :src="cover"
+        alt="track_cover"
+      />
+    </div>
+    <div class="md:w-2/3 w-full px-3 flex flex-row flex-wrap">
       <div
         :class="[
-          'rounded-lg',
-          'shadow-lg',
-          'bg-neutral-600',
-          'dark:bg-gray-600',
           'w-full',
-          'flex flex-row flex-wrap',
-          'p-3',
-          'antialiased',
+          'text-right text-gray-700',
+          'font-semibold',
+          'relative',
+          'pt-3',
+          'md:pt-0',
         ]"
-        :style="{
-          backgroundImage: 'url(' + cover + ')',
-          backgroundRepeat: 'no-repeat',
-          backgroundSize: 'cover',
-          backgroundBlendMode: 'multiply',
-        }"
       >
-        <div class="md:w-1/3 w-full">
-          <img
-            class="rounded-lg shadow-lg antialiased"
-            :src="cover"
-            alt="track_cover"
-          />
+        <div class="text-4xl text-white font-mono leading-tight">
+          {{ name }}
         </div>
-        <div class="md:w-2/3 w-full px-3 flex flex-row flex-wrap">
-          <div
-            :class="[
-              'w-full',
-              'text-right text-gray-700',
-              'font-semibold',
-              'relative',
-              'pt-3',
-              'md:pt-0',
-            ]"
+        <div
+          v-if="artists"
+          class="text-normal text-gray-300 hover:text-gray-400 cursor-pointer"
+        >
+          <span
+            class="border-b border-dashed border-gray-500 pb-1"
+            v-for="(artist, i) in artists"
+            :key="i"
+            >{{ artist.name }}</span
           >
-            <div class="text-2xl text-white leading-tight">{{ name }}</div>
-            <div
-              v-if="artists"
-              class="
-                text-normal text-gray-300
-                hover:text-gray-400
-                cursor-pointer
-              "
-            >
-              <span
-                class="border-b border-dashed border-gray-500 pb-1"
-                v-for="(artist, i) in artists"
-                :key="i"
-                >{{ artist.name }}</span
-              >
-            </div>
-            <div
-              v-if="url"
-              class="
-                text-sm text-gray-300
-                hover:text-gray-400
-                cursor-pointer
-                md:absolute
-                pt-3
-                md:pt-0
-                bottom-0
-                right-0
-              "
-            >
-              <a :href="url" target="_black">Open</a>
-            </div>
-          </div>
+        </div>
+        <div
+          v-if="url"
+          class="text-sm text-gray-300 hover:text-gray-400 cursor-pointer md:absolute pt-3 md:pt-0 bottom-0 right-0"
+        >
+          <a :href="url" target="_black">Open</a>
         </div>
       </div>
     </div>
@@ -110,16 +87,6 @@ export default Vue.extend({
       required: false,
       default: undefined,
     },
-  },
-  mounted() {
-    const data = {
-      name: this.name,
-      artists: this.artists,
-      url: this.url,
-      cover: this.cover,
-      preview: this.preview,
-    };
-    console.log(data);
   },
 });
 </script>
