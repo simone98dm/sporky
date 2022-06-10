@@ -49,6 +49,7 @@
               focus:ring-offset-2
               focus:ring-green-600
               focus:outline-none
+              cursor-pointer
               mr-4
             "
             @click="groupPerWeek"
@@ -74,6 +75,7 @@
               focus:ring-offset-2
               focus:ring-green-600
               focus:outline-none
+              cursor-pointer
               mr-4
             "
             @click="groupPerMonth"
@@ -99,6 +101,7 @@
               focus:ring-offset-2
               focus:ring-green-600
               focus:outline-none
+              cursor-pointer
               mr-4
             "
             @click="groupPerYear"
