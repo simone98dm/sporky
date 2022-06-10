@@ -10,7 +10,9 @@ export const useTopStore = defineStore({
     filter: "",
   }),
   getters: {
-    getSongs: (state) => state.songs,
+    getSongs(): MappedTrack[] {
+      return this.songs;
+    },
   },
   actions: {
     async retrieveTopSongs(options: {
@@ -21,6 +23,7 @@ export const useTopStore = defineStore({
       timelimit?: number;
     }) {
       let { token, type, timespan, offset, timelimit } = options;
+      
       if (!type) {
         type = "tracks";
       }
@@ -33,6 +36,7 @@ export const useTopStore = defineStore({
       if (!timelimit) {
         timelimit = 50;
       }
+
       const songs = await getTopTracks(
         token,
         type,
@@ -40,6 +44,7 @@ export const useTopStore = defineStore({
         offset,
         timelimit
       );
+
       this.songs = songs;
     },
     setFilter(token: string, filter: string) {
