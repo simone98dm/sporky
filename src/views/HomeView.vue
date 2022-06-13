@@ -13,7 +13,7 @@
     >
       <div class="mx-auto md:w-2/3">
         <Song
-          v-for="(song, i) in songs"
+          v-for="(song, i) in list"
           :name="song.name"
           :artists="song.artists"
           :url="song.url"
@@ -31,22 +31,24 @@ import Song from "@/components/Song.vue";
 import { useTopStore } from "@/stores/top";
 import { MappedTrack } from "@/models/Track";
 import { useAuthStore } from "@/stores/auth";
+import { storeToRefs } from "pinia";
 
 export default Vue.extend({
   name: "HomeView",
   data: () => ({
-    songs: [] as MappedTrack[],
+    list: [] as MappedTrack[],
     url: "",
     topStore: useTopStore(),
     authStore: useAuthStore(),
   }),
   components: { Song },
   mounted() {
+    const { songs } = storeToRefs(this.topStore);
     if (this.userLogged) {
       const token = this.authStore.token;
-      this.topStore.retrieveTopSongs({ token }).then(() => {
-        this.songs = this.topStore.getSongs;
-      });
+      this.topStore
+        .retrieveTopSongs({ token })
+        .then(() => (this.list = songs.value));
     }
   },
   computed: {

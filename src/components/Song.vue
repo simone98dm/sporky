@@ -1,16 +1,16 @@
 <template>
   <div
-    :class="[
-      'rounded-lg',
-      'shadow-lg',
-      'bg-neutral-600',
-      'dark:bg-gray-600',
-      'w-full',
-      'flex flex-row flex-wrap',
-      'p-3',
-      'antialiased',
-      'mb-5',
-    ]"
+    class="
+      rounded-lg
+      shadow-lg
+      bg-neutral-600
+      dark:bg-gray-600
+      w-full
+      flex flex-row flex-wrap
+      p-3
+      antialiased
+      mb-5
+    "
     :style="{
       backgroundImage: 'url(' + cover + ')',
       backgroundRepeat: 'no-repeat',
@@ -27,14 +27,14 @@
     </div>
     <div class="md:w-2/3 w-full px-3 flex flex-row flex-wrap">
       <div
-        :class="[
-          'w-full',
-          'text-right text-gray-700',
-          'font-semibold',
-          'relative',
-          'pt-3',
-          'md:pt-0',
-        ]"
+        class="
+          w-full
+          text-right text-gray-700
+          font-semibold
+          relative
+          pt-3
+          md:pt-0
+        "
       >
         <div class="text-4xl text-white font-mono leading-tight">
           {{ name }}
@@ -47,12 +47,22 @@
             class="border-b border-dashed border-gray-500 pb-1"
             v-for="(artist, i) in artists"
             :key="i"
-            >{{ artist.name }}</span
           >
+            {{ artist.name }}
+          </span>
         </div>
         <div
           v-if="url"
-          class="text-sm text-gray-300 hover:text-gray-400 cursor-pointer md:absolute pt-3 md:pt-0 bottom-0 right-0"
+          class="
+            text-sm text-gray-300
+            hover:text-gray-400
+            cursor-pointer
+            md:absolute
+            pt-3
+            md:pt-0
+            bottom-0
+            right-0
+          "
         >
           <a :href="url" target="_black">Open</a>
         </div>

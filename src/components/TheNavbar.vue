@@ -6,108 +6,12 @@
       </div>
       <div class="w-full block flex-grow lg:flex lg:items-center lg:w-auto">
         <div class="text-sm lg:flex-grow" v-if="!isLogged">
-          <a
-            class="
-              block
-              lg:inline-block
-              text-teal-200
-              hover:text-white
-              bg-green-600
-              font-semibold
-              leading-none
-              text-white
-              py-4
-              px-10
-              rounded
-              hover:bg-green-500
-              focus:ring-2
-              focus:ring-offset-2
-              focus:ring-green-600
-              focus:outline-none
-            "
-            :href="url"
-          >
-            Login
-          </a>
+          <nav-link label="Login" :href="url"></nav-link>
         </div>
         <div v-else>
-          <a
-            class="
-              block
-              lg:inline-block
-              text-teal-200
-              hover:text-white
-              bg-blue-600
-              font-semibold
-              leading-none
-              text-white
-              py-4
-              px-10
-              rounded
-              hover:bg-blue-500
-              focus:ring-2
-              focus:ring-offset-2
-              focus:ring-green-600
-              focus:outline-none
-              cursor-pointer
-              mr-4
-            "
-            @click="groupPerWeek"
-          >
-            Top 4 weeks
-          </a>
-
-          <a
-            class="
-              block
-              lg:inline-block
-              text-teal-200
-              hover:text-white
-              bg-blue-600
-              font-semibold
-              leading-none
-              text-white
-              py-4
-              px-10
-              rounded
-              hover:bg-blue-500
-              focus:ring-2
-              focus:ring-offset-2
-              focus:ring-green-600
-              focus:outline-none
-              cursor-pointer
-              mr-4
-            "
-            @click="groupPerMonth"
-          >
-            Top 6 month
-          </a>
-
-          <a
-            class="
-              block
-              lg:inline-block
-              text-teal-200
-              hover:text-white
-              bg-blue-600
-              font-semibold
-              leading-none
-              text-white
-              py-4
-              px-10
-              rounded
-              hover:bg-blue-500
-              focus:ring-2
-              focus:ring-offset-2
-              focus:ring-green-600
-              focus:outline-none
-              cursor-pointer
-              mr-4
-            "
-            @click="groupPerYear"
-          >
-            Top 1 year
-          </a>
+          <nav-link label="Top 4 weeks" @click="groupPerWeek"></nav-link>
+          <nav-link label="Top 6 month" @click="groupPerMonth"></nav-link>
+          <nav-link label="Top 1 year" @click="groupPerYear"></nav-link>
         </div>
       </div>
     </nav>
@@ -121,7 +25,9 @@ import { useTopStore } from "@/stores/top";
 import { buildSpotifyRedirectUrl } from "@/utils/common";
 import { TimeLimit } from "@/utils/constants";
 import { extractTokenFromUrl } from "@/utils/httputils";
+import NavLink from "./NavLink.vue";
 export default Vue.extend({
+  components: { NavLink },
   name: "TheNavbar",
   data: () => ({
     authStore: useAuthStore(),
@@ -135,12 +41,10 @@ export default Vue.extend({
   },
   mounted() {
     const { token } = extractTokenFromUrl(this.$route.hash);
-
     if (!token) {
       const url = buildSpotifyRedirectUrl();
       this.url = url;
     }
-
     if (token) {
       this.authStore.login(token);
     }
