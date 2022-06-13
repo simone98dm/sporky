@@ -1,34 +1,33 @@
 import { MappedTrack, SongInfo } from "@/models/Track";
+import { RequestOptions, TimeLimit, TrackType } from "@/utils/constants";
 import { getTopTracks } from "@/utils/httputils";
 import { defineStore } from "pinia";
-import { useAuthStore } from "./auth";
 
 export const useTopStore = defineStore({
   id: "top",
   state: () => ({
     songs: [] as MappedTrack[],
-    filter: "",
+    filter: "" as TimeLimit,
+    loading: false,
   }),
   getters: {
     getSongs(): MappedTrack[] {
       return this.songs;
     },
+    isLoading(): boolean {
+      return this.loading;
+    },
   },
   actions: {
-    async retrieveTopSongs(options: {
-      token: string;
-      type?: string;
-      timespan?: string;
-      offset?: number;
-      timelimit?: number;
-    }) {
+    async retrieveSongs(options: RequestOptions) {
+      this.loading = true;
       let { token, type, timespan, offset, timelimit } = options;
-      
+
       if (!type) {
         type = "tracks";
       }
       if (!timespan) {
-        timespan = "medium_term";
+        timespan = "long_term";
       }
       if (!offset) {
         offset = 0;
@@ -46,10 +45,11 @@ export const useTopStore = defineStore({
       );
 
       this.songs = songs;
+      this.loading = false;
     },
-    setFilter(token: string, filter: string) {
+    async filterList(token: string, filter: TimeLimit) {
       this.filter = filter;
-      this.retrieveTopSongs({
+      await this.retrieveSongs({
         token,
         timespan: this.filter,
       });

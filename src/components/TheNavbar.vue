@@ -1,6 +1,16 @@
 <template>
-  <header>
-    <nav class="flex items-center justify-between flex-wrap bg-blue-700 p-6">
+  <header class="sticky top-0 z-50">
+    <nav
+      class="
+        flex
+        items-center
+        justify-between
+        flex-wrap
+        backdrop-filter backdrop-blur-sm
+        bg-blue-700
+        p-6
+      "
+    >
       <div class="flex items-center flex-shrink-0 text-white mr-6">
         <span class="font-semibold text-xl tracking-tight">Spork</span>
       </div>
@@ -23,7 +33,6 @@ import Vue from "vue";
 import { useAuthStore } from "@/stores/auth";
 import { useTopStore } from "@/stores/top";
 import { buildSpotifyRedirectUrl } from "@/utils/common";
-import { TimeLimit } from "@/utils/constants";
 import { extractTokenFromUrl } from "@/utils/httputils";
 import NavLink from "./NavLink.vue";
 export default Vue.extend({
@@ -51,13 +60,13 @@ export default Vue.extend({
   },
   methods: {
     groupPerYear() {
-      this.topStore.setFilter(this.authStore.token, TimeLimit.Years);
+      this.topStore.filterList(this.authStore.token, "long_term");
     },
     groupPerWeek() {
-      this.topStore.setFilter(this.authStore.token, TimeLimit.Weeks);
+      this.topStore.filterList(this.authStore.token, "short_term");
     },
     groupPerMonth() {
-      this.topStore.setFilter(this.authStore.token, TimeLimit.Months);
+      this.topStore.filterList(this.authStore.token, "medium_term");
     },
   },
 });

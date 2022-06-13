@@ -36,14 +36,7 @@ export async function getTopTracks(
   })
     .then((response) => response.json() as unknown as Tracks)
     .then((response) => (response.items ? response.items : []))
-    .then((items: SongInfo[]) => {
-      let songs: any[] = [];
-      items.map((item) => {
-        const song = mapTrackToSong(item);
-        songs.push(song);
-      });
-      return songs;
-    })
+    .then((items: SongInfo[]) => items.map((item) => mapTrackToSong(item)))
     .catch((error) => {
       localStorage.removeItem(stateKey);
       console.log(error);
