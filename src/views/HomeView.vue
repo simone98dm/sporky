@@ -1,6 +1,6 @@
 <template>
-  <main class="flex justify-center mt-4 overflow-hidden">
-    <div class="mx-auto md:w-2/3">
+  <main class="flex justify-center items-center	mt-4 overflow-hidden">
+    <div class="mx-auto md:w-2/3 sm:mx-10 xs:mx-5">
       <div v-if="userLogged">
         <h1 class="text-white text-center text-4xl mb-4">
           Your top tracks since {{ selectedFilter }}
@@ -15,7 +15,7 @@
         />
       </div>
       <div v-else>
-        <h1 class="text-white text-center text-4xl mb-4">
+        <h1 class="text-white text-center text-4xl mb-4 h-screen">
           You need to be logged in to see your top tracks, please login
         </h1>
       </div>
