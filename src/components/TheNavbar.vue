@@ -1,27 +1,17 @@
 <template>
   <header class="sticky top-0 z-30">
-    <nav
-      class="
-        flex
-        items-center
-        justify-between
-        flex-wrap
-        bg-gray-900
-        shadow-lg
-        p-4
-      "
-    >
+    <nav class="flex items-center justify-between bg-gray-900 shadow-lg p-4">
       <div class="flex items-center flex-shrink-0 text-white mr-6">
         <span class="font-semibold text-xl tracking-tight">Spork</span>
       </div>
-      <div class="w-full w-auto">
-        <div class="text-sm item-end" v-if="!isLogged">
-          <nav-link label="Login" :href="url"></nav-link>
+      <div class="item-end">
+        <div v-if="!isLogged">
+          <NavLink label="Login" :href="url" />
         </div>
-        <div v-else class="item-end">
-          <nav-link label="Top 4 weeks" @click="groupPerWeek"></nav-link>
-          <nav-link label="Top 6 month" @click="groupPerMonth"></nav-link>
-          <nav-link label="Top 1 year" @click="groupPerYear"></nav-link>
+        <div v-else>
+          <NavLink label="Top 4 weeks" @click="groupPerWeek" />
+          <NavLink label="Top 6 month" @click="groupPerMonth" />
+          <NavLink label="Top 1 year" @click="groupPerYear" />
         </div>
       </div>
     </nav>

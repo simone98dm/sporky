@@ -1,21 +1,16 @@
 <template>
   <a
     class="
-      block
-      lg:inline-block
-      text-teal-200
-      hover:text-white
       bg-gray-600
-      font-semibold
-      leading-none
       text-white
-      py-4
-      px-10
       rounded
       hover:bg-gray-500
-      focus:ring-2 focus:ring-offset-2 focus:ring-green-600 focus:outline-none
       cursor-pointer
-      mr-4
+      text-sm
+      px-5
+      py-2
+      mr-2
+      md:mr-4 md:px-10 md:py-4 md:text-md
     "
     v-on="$listeners"
   >

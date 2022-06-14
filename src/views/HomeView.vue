@@ -1,18 +1,21 @@
 <template>
-  <main class="flex justify-center items-center	mt-4 overflow-hidden">
+  <main class="flex justify-center items-center mt-4 overflow-hidden">
     <div class="mx-auto md:w-2/3 sm:mx-10 xs:mx-5">
       <div v-if="userLogged">
         <h1 class="text-white text-center text-4xl mb-4">
           Your top tracks since {{ selectedFilter }}
         </h1>
-        <Song
-          v-for="(song, i) in songs"
-          :name="song.name"
-          :artists="song.artists"
-          :url="song.url"
-          :cover="song.cover"
-          :key="i"
-        />
+        <div v-if="!isLoading">
+          <Song
+            v-for="(song, i) in songs"
+            :name="song.name"
+            :artists="song.artists"
+            :url="song.url"
+            :cover="song.cover"
+            :key="i"
+          />
+        </div>
+        <div v-else>Loading...</div>
       </div>
       <div v-else>
         <h1 class="text-white text-center text-4xl mb-4 h-screen">
