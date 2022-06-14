@@ -12,8 +12,11 @@
       "
     >
       <div class="mx-auto md:w-2/3">
+        <h1 class="text-white text-center text-4xl mb-4">
+          You top traks since {{ selectedFilter }}
+        </h1>
         <Song
-          v-for="(song, i) in getSongs"
+          v-for="(song, i) in songs"
           :name="song.name"
           :artists="song.artists"
           :url="song.url"
@@ -30,6 +33,7 @@ import Vue from "vue";
 import Song from "@/components/Song.vue";
 import { useTopStore } from "@/stores/top";
 import { useAuthStore } from "@/stores/auth";
+import { TimeLimitLabel } from "@/utils/constants";
 
 export default Vue.extend({
   name: "HomeView",
@@ -52,8 +56,11 @@ export default Vue.extend({
     isLoading() {
       return this.topStore.isLoading;
     },
-    getSongs() {
+    songs() {
       return this.topStore.getSongs;
+    },
+    selectedFilter() {
+      return TimeLimitLabel[this.topStore.filter];
     },
   },
 });

@@ -12,3 +12,9 @@ export type RequestOptions = {
   offset?: number;
   timelimit?: number;
 };
+
+export const TimeLimitLabel = {
+  ["long_term"]: "1 year",
+  ["medium_term"]: "6 months",
+  ["short_term"]: "4 weeks",
+};
