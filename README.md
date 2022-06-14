@@ -1,20 +1,10 @@
 # spork-vue
 
-This template should help get you started developing with Vue 2 in Vite.
+Spork is a web app which helps you understand which are your top traks from your Spotify library.
 
-## Recommended IDE Setup
+Spork uses spotify public APIs to retrieve those information from your account, so in order to proceed you maight need to authorize Spork to get access to your spotify account (don't worry, just top tracks info).
 
-[VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=johnsoncodehk.volar) (and disable Vetur).
-
-## Type Support for `.vue` Imports in TS
-
-Since TypeScript cannot handle type information for `.vue` imports, they are shimmed to be a generic Vue component type by default. In most cases this is fine if you don't really care about component prop types outside of templates.
-
-However, if you wish to get actual prop types in `.vue` imports (for example to get props validation when using manual `h(...)` calls), you can run `Volar: Switch TS Plugin on/off` from VSCode command palette.
-
-## Customize configuration
-
-See [Vite Configuration Reference](https://vitejs.dev/config/).
+[![Netlify Status](https://api.netlify.com/api/v1/badges/66dd0072-4348-435e-b4f8-7d5a3f685cd6/deploy-status)](https://app.netlify.com/sites/spork-vue/deploys)
 
 ## Project Setup
 
