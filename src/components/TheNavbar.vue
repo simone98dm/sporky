@@ -1,24 +1,24 @@
 <template>
-  <header class="sticky top-0 z-50">
+  <header class="sticky top-0 z-30">
     <nav
       class="
         flex
         items-center
         justify-between
         flex-wrap
-        backdrop-filter backdrop-blur-sm
-        bg-blue-700
-        p-6
+        bg-gray-900
+        shadow-lg
+        p-4
       "
     >
       <div class="flex items-center flex-shrink-0 text-white mr-6">
         <span class="font-semibold text-xl tracking-tight">Spork</span>
       </div>
-      <div class="w-full block flex-grow lg:flex lg:items-center lg:w-auto">
-        <div class="text-sm lg:flex-grow" v-if="!isLogged">
+      <div class="w-full w-auto">
+        <div class="text-sm item-end" v-if="!isLogged">
           <nav-link label="Login" :href="url"></nav-link>
         </div>
-        <div v-else>
+        <div v-else class="item-end">
           <nav-link label="Top 4 weeks" @click="groupPerWeek"></nav-link>
           <nav-link label="Top 6 month" @click="groupPerMonth"></nav-link>
           <nav-link label="Top 1 year" @click="groupPerYear"></nav-link>

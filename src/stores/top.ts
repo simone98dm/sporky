@@ -7,7 +7,7 @@ export const useTopStore = defineStore({
   id: "top",
   state: () => ({
     songs: [] as MappedTrack[],
-    filter: "" as TimeLimit,
+    filter: "long_term" as TimeLimit,
     loading: false,
   }),
   getters: {

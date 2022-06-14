@@ -1,6 +1,6 @@
 # spork-vue
 
-Spork is a web app which helps you understand which are your top traks from your Spotify library.
+Spork is a web app which helps you understand which are your top tracks from your Spotify library.
 
 Spork uses spotify public APIs to retrieve those information from your account, so in order to proceed you maight need to authorize Spork to get access to your spotify account (don't worry, just top tracks info).
 

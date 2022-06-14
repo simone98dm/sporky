@@ -1,19 +1,9 @@
 <template>
-  <main class="flex justify-center">
-    <div
-      v-if="userLogged"
-      class="
-        w-screen
-        bg-white
-        dark:bg-gray-900
-        flex flex-row flex-wrap
-        p-3
-        overflow-hidden
-      "
-    >
-      <div class="mx-auto md:w-2/3">
+  <main class="flex justify-center mt-4 overflow-hidden">
+    <div class="mx-auto md:w-2/3">
+      <div v-if="userLogged">
         <h1 class="text-white text-center text-4xl mb-4">
-          You top traks since {{ selectedFilter }}
+          Your top tracks since {{ selectedFilter }}
         </h1>
         <Song
           v-for="(song, i) in songs"
@@ -23,6 +13,11 @@
           :cover="song.cover"
           :key="i"
         />
+      </div>
+      <div v-else>
+        <h1 class="text-white text-center text-4xl mb-4">
+          You need to be logged in to see your top tracks, please login
+        </h1>
       </div>
     </div>
   </main>
