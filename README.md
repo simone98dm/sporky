@@ -1,12 +1,14 @@
-# spork-vue
-
-Spork is a web app which helps you understand which are your top tracks from your Spotify library.
-
-Spork uses spotify public APIs to retrieve those information from your account, so in order to proceed you maight need to authorize Spork to get access to your spotify account (don't worry, just top tracks info).
+# Spork 🎧
+Show your top listened Spotify tracks with a good looking UI.
 
 [![Netlify Status](https://api.netlify.com/api/v1/badges/66dd0072-4348-435e-b4f8-7d5a3f685cd6/deploy-status)](https://app.netlify.com/sites/spork-vue/deploys)
 
 ![image](./public/Screenshot%202022-06-14%20at%2008.36.00.png)
+
+# How to use it
+On the webpage just login into with your Spotify account, then authorize the app to get access to your account info (no worries, then you can revoke the access, is just needed to get only the top listened tranks).
+
+
 
 ## Project Setup
 
