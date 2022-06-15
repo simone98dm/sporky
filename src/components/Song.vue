@@ -36,7 +36,7 @@
           md:pt-0
         "
       >
-        <div class="text-4xl text-white font-mono leading-tight">
+        <div class="text-4xl text-white font-mono leading-tight song-name">
           {{ name }}
         </div>
         <div
@@ -62,6 +62,7 @@
             md:pt-0
             bottom-0
             right-0
+            song-url
           "
         >
           <a :href="url" target="_black">Open</a>

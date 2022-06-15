@@ -3,8 +3,12 @@
     <div class="mx-auto md:w-2/3 sm:mx-10 xs:mx-5">
       <div v-if="userLogged">
         <h1 class="text-white text-center text-4xl mb-4">
-          Your top tracks since {{ selectedFilter }}
+          Hey👋
+          <span v-if="username">{{ username }}</span>
         </h1>
+        <h3 class="text-white text-center text-xl mb-4">
+          Your top tracks since {{ selectedFilter }}
+        </h3>
         <div v-if="!isLoading">
           <Song
             v-for="(song, i) in songs"
@@ -30,6 +34,7 @@
 import Vue from "vue";
 import Song from "@/components/Song.vue";
 import { useTopStore } from "@/stores/top";
+import { useUserStore } from "@/stores/user";
 import { useAuthStore } from "@/stores/auth";
 import { TimeLimitLabel } from "@/utils/constants";
 
@@ -39,12 +44,14 @@ export default Vue.extend({
     url: "",
     topStore: useTopStore(),
     authStore: useAuthStore(),
+    userStore: useUserStore(),
   }),
   components: { Song },
   mounted() {
     if (this.userLogged) {
       const token = this.authStore.token;
       this.topStore.retrieveSongs({ token });
+      this.userStore.retriveUsername(token);
     }
   },
   computed: {
@@ -59,6 +66,9 @@ export default Vue.extend({
     },
     selectedFilter() {
       return TimeLimitLabel[this.topStore.filter];
+    },
+    username() {
+      return this.userStore.getUsername;
     },
   },
 });
