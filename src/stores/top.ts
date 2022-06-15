@@ -33,7 +33,7 @@ export const useTopStore = defineStore({
         offset = 0;
       }
       if (!timelimit) {
-        timelimit = 50;
+        timelimit = 10;
       }
 
       const songs = await getTopTracks(

@@ -51,24 +51,43 @@
             {{ artist.name }}
           </span>
         </div>
-        <div
-          v-if="url"
-          class="
-            text-sm text-gray-300
-            hover:text-gray-400
-            cursor-pointer
-            md:absolute
-            pt-3
-            md:pt-0
-            bottom-0
-            right-0
-            song-url
-          "
-        >
-          <a :href="url" target="_black">Open</a>
+        <div class="mb-0">
+          <button
+            :class="[
+              'px-4',
+              'py-2',
+              'rounded-md',
+              'text-white text-sm',
+              'cursor-pointer',
+              'song-url',
+              'm-3',
+              isPlaying ? 'bg-green-600' : 'bg-gray-500',
+            ]"
+            @click="togglePreview"
+          >
+            {{ isPlaying ? "Stop preview" : "Play preview" }}
+          </button>
+          <a
+            class="
+              bg-gray-500
+              px-4
+              py-2
+              rounded-md
+              text-white text-sm
+              cursor-pointer
+              song-url
+              m-3
+            "
+            :href="url"
+            target="_black"
+            >Open</a
+          >
         </div>
       </div>
     </div>
+    <!-- <div class="w-full">
+      <audio controls muted :src="preview" class="w-full mt-3 bg-dark"/>
+    </div> -->
   </div>
 </template>
 
@@ -97,6 +116,29 @@ export default Vue.extend({
       type: String,
       required: false,
       default: undefined,
+    },
+  },
+  data() {
+    return {
+      audio: new Audio(this.preview),
+      isPlaying: false,
+      showPlayButton: false,
+    };
+  },
+  methods: {
+    togglePreview() {
+      if (this.preview) {
+        this.isPlaying = !this.isPlaying;
+        if (this.isPlaying) {
+          this.audio.play();
+        } else {
+          this.audio.pause();
+          this.audio.currentTime = 0;
+        }
+      }
+    },
+    togglePlayButton() {
+      this.showPlayButton = !this.showPlayButton;
     },
   },
 });

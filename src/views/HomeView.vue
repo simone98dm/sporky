@@ -16,6 +16,7 @@
             :artists="song.artists"
             :url="song.url"
             :cover="song.cover"
+            :preview="song.preview"
             :key="i"
           />
         </div>

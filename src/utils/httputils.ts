@@ -50,6 +50,7 @@ function mapTrackToSong(track: SongInfo): MappedTrack {
     artists: track.artists,
     album: track.album.name,
     cover: track.album.images[0].url,
+    preview: track.preview_url,
     url: track.uri,
   };
 }

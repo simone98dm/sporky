@@ -14,6 +14,7 @@ export interface MappedTrack {
   album: string;
   cover: string;
   url: string;
+  preview: string;
 }
 
 export interface SongInfo {
