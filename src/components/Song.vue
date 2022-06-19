@@ -39,10 +39,7 @@
         <div class="text-4xl text-white font-mono leading-tight song-name">
           {{ name }}
         </div>
-        <div
-          v-if="artists"
-          class="text-normal text-gray-400"
-        >
+        <div v-if="artists" class="text-normal text-gray-400">
           <span
             class="border-b border-dashed border-gray-500 pb-1"
             v-for="(artist, i) in artists"
@@ -53,19 +50,19 @@
         </div>
         <div class="mb-0">
           <button
-            :class="[
-              'px-4',
-              'py-2',
-              'rounded-md',
-              'text-white text-sm',
-              'cursor-pointer',
-              'song-url',
-              'm-3',
-              isPlaying ? 'bg-green-600' : 'bg-gray-500',
-            ]"
+            class="
+              px-4
+              py-2
+              rounded-md
+              text-white text-sm
+              cursor-pointer
+              song-url
+              m-3
+              bg-gray-500
+            "
             @click="togglePreview"
           >
-            {{ isPlaying ? "Stop preview" : "Play preview" }}
+            Play preview
           </button>
           <a
             class="
@@ -85,9 +82,6 @@
         </div>
       </div>
     </div>
-    <!-- <div class="w-full">
-      <audio controls muted :src="preview" class="w-full mt-3 bg-dark"/>
-    </div> -->
   </div>
 </template>
 
@@ -102,7 +96,7 @@ export default Vue.extend({
       required: true,
     },
     artists: {
-      type: Array as PropType<{ name: string }[]>,
+      type: [] as PropType<{ name: string }[]>,
       required: true,
     },
     url: {
@@ -120,8 +114,6 @@ export default Vue.extend({
     },
   },
   data: () => ({
-    isPlaying: false,
-    showPlayButton: false,
     topStore: useTopStore(),
   }),
   methods: {
@@ -132,9 +124,6 @@ export default Vue.extend({
           name: this.name + " - " + this.artists.map((a) => a.name).join(", "),
         });
       }
-    },
-    togglePlayButton() {
-      this.showPlayButton = !this.showPlayButton;
     },
   },
 });
