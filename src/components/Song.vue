@@ -41,7 +41,7 @@
         </div>
         <div
           v-if="artists"
-          class="text-normal text-gray-300 hover:text-gray-400 cursor-pointer"
+          class="text-normal text-gray-400"
         >
           <span
             class="border-b border-dashed border-gray-500 pb-1"
