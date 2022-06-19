@@ -9,6 +9,8 @@ export const useTopStore = defineStore({
     songs: [] as MappedTrack[],
     filter: "long_term" as TimeLimit,
     loading: false,
+    playing: false,
+    playingSong: null as { name: string; url: string } | null,
   }),
   getters: {
     getSongs(): MappedTrack[] {
@@ -16,6 +18,15 @@ export const useTopStore = defineStore({
     },
     isLoading(): boolean {
       return this.loading;
+    },
+    currentPlayingSong(): {
+      name: string;
+      url: string;
+    } | null {
+      return this.playingSong;
+    },
+    isPlaying(): boolean {
+      return this.playing;
     },
   },
   actions: {
@@ -53,6 +64,14 @@ export const useTopStore = defineStore({
         token,
         timespan: this.filter,
       });
+    },
+    async playPreview(option: { name: string; url: string }) {
+      this.playingSong = option;
+      this.playing = true;
+    },
+    async stopPreview() {
+      this.playingSong = null;
+      this.playing = false;
     },
   },
 });

@@ -92,6 +92,7 @@
 </template>
 
 <script lang="ts">
+import { useTopStore } from "@/stores/top";
 import Vue, { PropType } from "vue";
 export default Vue.extend({
   name: "SongComponent",
@@ -118,23 +119,18 @@ export default Vue.extend({
       default: undefined,
     },
   },
-  data() {
-    return {
-      audio: new Audio(this.preview),
-      isPlaying: false,
-      showPlayButton: false,
-    };
-  },
+  data: () => ({
+    isPlaying: false,
+    showPlayButton: false,
+    topStore: useTopStore(),
+  }),
   methods: {
     togglePreview() {
       if (this.preview) {
-        this.isPlaying = !this.isPlaying;
-        if (this.isPlaying) {
-          this.audio.play();
-        } else {
-          this.audio.pause();
-          this.audio.currentTime = 0;
-        }
+        this.topStore.playPreview({
+          url: this.preview,
+          name: this.name + " - " + this.artists.map((a) => a.name).join(", "),
+        });
       }
     },
     togglePlayButton() {
