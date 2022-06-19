@@ -1,50 +1,50 @@
 @keyframes ldio-z6h7l1lpshs {
-    0% {
-        transform: translate(-50%, -50%) rotate(0deg);
-    }
+  0% {
+    transform: translate(-50%, -50%) rotate(0deg);
+  }
 
-    100% {
-        transform: translate(-50%, -50%) rotate(360deg);
-    }
+  100% {
+    transform: translate(-50%, -50%) rotate(360deg);
+  }
 }
 
 .ldio-z6h7l1lpshs div {
-    position: absolute;
-    left: 0;
-    right: 0;
-    margin-left: auto;
-    margin-right: auto;
-    width: 108px;
-    height: 108px;
-    border: 20px solid #1db954;
-    border-top-color: transparent;
-    border-radius: 50%;
+  position: absolute;
+  left: 0;
+  right: 0;
+  margin-left: auto;
+  margin-right: auto;
+  width: 108px;
+  height: 108px;
+  border: 20px solid #1db954;
+  border-top-color: transparent;
+  border-radius: 50%;
 }
 
 .ldio-z6h7l1lpshs div {
-    animation: ldio-z6h7l1lpshs 1s linear infinite;
-    top: 100px;
-    left: 100px;
+  animation: ldio-z6h7l1lpshs 1s linear infinite;
+  top: 100px;
+  left: 100px;
 }
 
 .loadingio-spinner-rolling-xjk8h47j69 {
-    width: 200px;
-    height: 200px;
-    display: inline-block;
-    overflow: hidden;
-    background: #ffffff;
+  width: 200px;
+  height: 200px;
+  display: inline-block;
+  overflow: hidden;
+  background: #ffffff;
 }
 
 .ldio-z6h7l1lpshs {
-    width: 100%;
-    height: 100%;
-    position: relative;
-    transform: translateZ(0) scale(1);
-    backface-visibility: hidden;
-    transform-origin: 0 0;
-    /* see note above */
+  width: 100%;
+  height: 100%;
+  position: relative;
+  transform: translateZ(0) scale(1);
+  backface-visibility: hidden;
+  transform-origin: 0 0;
+  /* see note above */
 }
 
 .ldio-z6h7l1lpshs div {
-    box-sizing: content-box;
+  box-sizing: content-box;
 }

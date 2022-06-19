@@ -7,7 +7,9 @@
         <span>Made with ❤️ by simone98dm </span><br />
         <span>
           This project is on
-          <a href="https://github.com/simone98dm/spork" class="text-blue-300">Github</a>
+          <a href="https://github.com/simone98dm/spork" class="text-blue-300">
+            Github
+          </a>
         </span>
       </div>
     </div>
