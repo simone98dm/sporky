@@ -5,7 +5,7 @@
       <div v-if="!isLogged">
         <NavLink label="Login" :href="url" />
       </div>
-      <div v-else>
+      <div v-else class="flex flex-row flex-wrap">
         <NavLink label="Top 4 weeks" @click="groupPerWeek" />
         <NavLink label="Top 6 month" @click="groupPerMonth" />
         <NavLink label="Top 1 year" @click="groupPerYear" />
