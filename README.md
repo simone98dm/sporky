@@ -4,7 +4,7 @@ Show your top listened Spotify tracks with a good looking UI.
 
 [![Netlify Status](https://api.netlify.com/api/v1/badges/66dd0072-4348-435e-b4f8-7d5a3f685cd6/deploy-status)](https://app.netlify.com/sites/spork-vue/deploys)
 
-![image](./public/Screenshot%202022-06-14%20at%2008.36.00.png)
+![image](./public/example.png)
 
 # How to use it
 
