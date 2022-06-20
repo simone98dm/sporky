@@ -1,8 +1,8 @@
-# Spork 🎧
+# Sporky 🎧
 
 Show your top listened Spotify tracks with a good looking UI.
 
-[![Netlify Status](https://api.netlify.com/api/v1/badges/66dd0072-4348-435e-b4f8-7d5a3f685cd6/deploy-status)](https://app.netlify.com/sites/spork-vue/deploys)
+[![Netlify Status](https://api.netlify.com/api/v1/badges/66dd0072-4348-435e-b4f8-7d5a3f685cd6/deploy-status)](https://app.netlify.com/sites/sporky/deploys)
 
 ![image](./public/example.png)
 
