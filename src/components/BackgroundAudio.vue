@@ -1,5 +1,5 @@
 <template>
-  <div v-if="current" class="ml-3">
+  <div v-if="current">
     <button class="float" @click="stopSong">
       Stop playing "{{ current.name }}"
     </button>
