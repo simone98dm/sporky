@@ -1,16 +1,6 @@
 <template>
   <div
-    class="
-      rounded-lg
-      shadow-lg
-      bg-neutral-600
-      dark:bg-gray-600
-      w-full
-      flex flex-row flex-wrap
-      p-3
-      antialiased
-      mb-5
-    "
+    class="rounded-lg shadow-lg bg-neutral-600 dark:bg-gray-600 w-full flex flex-row flex-wrap p-3 antialiased mb-5"
     :style="{
       backgroundImage: 'url(' + cover + ')',
       backgroundRepeat: 'no-repeat',
@@ -27,14 +17,7 @@
     </div>
     <div class="md:w-2/3 w-full px-3 flex flex-row flex-wrap">
       <div
-        class="
-          w-full
-          text-right text-gray-700
-          font-semibold
-          relative
-          pt-3
-          md:pt-0
-        "
+        class="w-full text-right text-gray-700 font-semibold relative pt-3 md:pt-0"
       >
         <div class="text-4xl text-white font-mono leading-tight song-name">
           {{ name }}
@@ -50,31 +33,13 @@
         </div>
         <div class="mb-0">
           <button
-            class="
-              px-4
-              py-2
-              rounded-md
-              text-white text-sm
-              cursor-pointer
-              song-url
-              m-3
-              bg-gray-500
-            "
+            class="px-4 py-2 rounded-md text-white text-sm cursor-pointer song-url m-3 bg-gray-500"
             @click="togglePreview"
           >
             Play preview
           </button>
           <a
-            class="
-              bg-gray-500
-              px-4
-              py-2
-              rounded-md
-              text-white text-sm
-              cursor-pointer
-              song-url
-              m-3
-            "
+            class="bg-gray-500 px-4 py-2 rounded-md text-white text-sm cursor-pointer song-url m-3"
             :href="url"
             target="_black"
             >Open</a
