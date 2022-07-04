@@ -26,15 +26,18 @@ export default Vue.extend({
         this.audio.addEventListener("ended", () => {
           this.stopSong();
           this.$destroy();
-        })
+        });
       }
 
       return this.topStore.currentPlayingSong;
     },
   },
   beforeDestroy() {
-    if(this.audio) {
-      this.audio.removeEventListener("ended");
+    if (this.audio) {
+      this.audio.removeEventListener("ended", () => {
+        this.stopSong();
+        this.$destroy();
+      });
     }
   },
   methods: {
