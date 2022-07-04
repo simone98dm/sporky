@@ -23,10 +23,19 @@ export default Vue.extend({
       if (this.topStore.currentPlayingSong) {
         this.audio = new Audio(this.topStore.currentPlayingSong.url);
         this.audio.play();
+        this.audio.addEventListener("ended", () => {
+          this.stopSong();
+          this.$destroy();
+        })
       }
 
       return this.topStore.currentPlayingSong;
     },
+  },
+  beforeDestroy() {
+    if(this.audio) {
+      this.audio.removeEventListener("ended");
+    }
   },
   methods: {
     stopSong() {
