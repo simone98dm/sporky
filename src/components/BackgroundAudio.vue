@@ -1,8 +1,11 @@
 <template>
   <div v-if="current">
-    <button class="float" @click="stopSong">
-      Stop playing "{{ current.name }}"
-    </button>
+    <div class="float" @click="stopSong">
+      <div class="float-content">
+        <strong>Stop playing "{{ current.name }}"</strong>
+        <progress :max="songLength" :value="songProgress"></progress>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -14,6 +17,8 @@ export default Vue.extend({
   data: () => ({
     topStore: useTopStore(),
     audio: new Audio(),
+    songLength: 0,
+    songProgress: 0,
   }),
   computed: {
     current(): { name: string; url: string } | null {
@@ -23,10 +28,8 @@ export default Vue.extend({
       if (this.topStore.currentPlayingSong) {
         this.audio = new Audio(this.topStore.currentPlayingSong.url);
         this.audio.play();
-        this.audio.addEventListener("ended", () => {
-          this.stopSong();
-          this.$destroy();
-        });
+        this.audio.addEventListener("ended", this.stopSong);
+        this.audio.addEventListener("timeupdate", this.updateSong);
       }
 
       return this.topStore.currentPlayingSong;
@@ -34,10 +37,8 @@ export default Vue.extend({
   },
   beforeDestroy() {
     if (this.audio) {
-      this.audio.removeEventListener("ended", () => {
-        this.stopSong();
-        this.$destroy();
-      });
+      this.audio.removeEventListener("ended", this.stopSong);
+      this.audio.addEventListener("timeupdate", this.updateSong);
     }
   },
   methods: {
@@ -45,6 +46,10 @@ export default Vue.extend({
       this.audio.pause();
       this.audio.currentTime = 0;
       this.topStore.stopPreview();
+    },
+    updateSong() {
+      this.songLength = this.audio.duration;
+      this.songProgress = this.audio.currentTime;
     },
   },
 });
@@ -67,8 +72,34 @@ export default Vue.extend({
   text-overflow: ellipsis;
   white-space: nowrap;
   overflow: hidden;
+  cursor: pointer;
 }
-
+.float-content {
+  display: flex;
+  flex-direction: column;
+}
+progress::-moz-progress-bar {
+  width: 100%;
+  height: 2px;
+  margin-top: 10px;
+  background: white;
+}
+progress::-webkit-progress-value {
+  width: 100%;
+  height: 2px;
+  margin-top: 10px;
+  background: white;
+}
+progress[value]::-webkit-progress-bar {
+  background-color: #1db954;
+}
+progress {
+  width: 100%;
+  height: 2px;
+  margin-top: 10px;
+  color: white;
+  border-radius: 50%;
+}
 @media only screen and (min-width: 768px) {
   .float {
     bottom: 20px;
