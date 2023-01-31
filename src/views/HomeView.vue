@@ -1,6 +1,6 @@
 <template>
   <main class="flex justify-center items-center mt-4 overflow-hidden">
-    <div class="mx-auto md:w-2/3 sm:mx-10 xs:mx-5">
+    <div class="mx-auto md:max-w-screen-lg sm:mx-10 xs:mx-5">
       <div v-if="userLogged">
         <h1 class="text-white text-center text-4xl mb-4">
           Hey👋

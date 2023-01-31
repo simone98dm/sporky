@@ -1,6 +1,8 @@
 <template>
   <header class="sticky top-0 z-30">
-    <nav class="flex justify-between bg-gray-900 shadow-lg p-4 text-white">
+    <nav
+      class="flex justify-between items-center bg-gray-900 shadow-lg p-4 text-white"
+    >
       <span class="font-semibold text-xl tracking-tight">Sporky</span>
       <div v-if="!isLogged">
         <NavLink label="Login" :href="url" />
