@@ -5,10 +5,14 @@ export const useUserStore = defineStore({
   id: "user",
   state: () => ({
     username: "",
+    theme: "light",
   }),
   getters: {
-    getUsername(): string {
-      return this.username;
+    getUsername(state): string {
+      return state.username;
+    },
+    getTheme(state): string {
+      return state.theme;
     },
   },
   actions: {
@@ -17,6 +21,9 @@ export const useUserStore = defineStore({
       if (user) {
         this.username = user.display_name;
       }
+    },
+    setTheme(theme: string) {
+      this.theme = theme;
     },
   },
 });
