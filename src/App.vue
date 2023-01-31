@@ -1,7 +1,7 @@
 <template>
-  <div id="app">
+  <div id="app" class="bg-gray-900 min-h-screen">
     <TheNavbar />
-    <div class="w-full bg-gray-900 p-2">
+    <div class="w-full p-2">
       <router-view />
       <div class="text-center text-white">
         <span>Made with ❤️ by simone98dm </span><br />

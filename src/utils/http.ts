@@ -8,7 +8,12 @@ export async function getUserInfo(access_token: string) {
 
   return await fetch(`${spotifyApi}/me`, {
     headers: getHeader(access_token),
-  }).then((response) => response.json() as unknown as IUser);
+  })
+    .then((response) => response.json() as unknown as IUser)
+    .catch(() => {
+      localStorage.removeItem(stateKey);
+      return null;
+    });
 }
 
 export async function getTopTracks(

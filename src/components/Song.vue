@@ -53,6 +53,7 @@
 <script lang="ts">
 import { useTopStore } from "@/stores/top";
 import Vue, { PropType } from "vue";
+
 export default Vue.extend({
   name: "SongComponent",
   props: {

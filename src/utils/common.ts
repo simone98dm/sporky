@@ -23,12 +23,11 @@ export function generateRandomString(length: number): string {
 }
 
 export function buildSpotifyRedirectUrl() {
-  let client_id = "e0df5d5670e54d19bab0026e3f80896b";
+  let client_id = import.meta.env.VITE_SPOTIFY_CLIENT_ID;
   let redirect_uri = window.location.origin + window.location.pathname;
   let state = generateRandomString(16);
   localStorage.setItem(stateKey, state);
   let scope = "user-top-read";
-  // let scope = "user-top-read playlist-read-private playlist-modify-private";
 
   let url = "https://accounts.spotify.com/authorize";
   url += "?response_type=token";

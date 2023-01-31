@@ -1,4 +1,4 @@
-import { getUserInfo } from "@/utils/httputils";
+import { getUserInfo } from "@/utils/http";
 import { defineStore } from "pinia";
 
 export const useUserStore = defineStore({

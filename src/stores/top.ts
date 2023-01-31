@@ -1,6 +1,6 @@
 import { MappedTrack, SongInfo } from "@/models/Track";
 import { RequestOptions, TimeLimit, TrackType } from "@/utils/constants";
-import { getTopTracks } from "@/utils/httputils";
+import { getTopTracks } from "@/utils/http";
 import { defineStore } from "pinia";
 
 export const useTopStore = defineStore({

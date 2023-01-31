@@ -1,17 +1,19 @@
 <template>
   <main class="flex justify-center items-center mt-4 overflow-hidden">
     <div class="mx-auto md:max-w-screen-lg sm:mx-10 xs:mx-5">
-      <div v-if="userLogged">
-        <h1 class="text-white text-center text-4xl mb-4">
-          Hey👋
-          <span v-if="username">{{ username }}</span>
+      <div v-if="authStore.isLogged">
+        <h1
+          class="text-white text-center text-4xl mb-4"
+          v-if="userStore.getUsername"
+        >
+          Hey👋 {{ userStore.getUsername }}
         </h1>
         <h3 class="text-white text-center text-xl mb-4">
           Your top tracks since {{ selectedFilter }}
         </h3>
-        <div v-if="!isLoading">
+        <div v-if="!topStore.isLoading">
           <Song
-            v-for="(song, i) in songs"
+            v-for="(song, i) in topStore.getSongs"
             :name="song.name"
             :artists="song.artists"
             :url="song.url"
@@ -20,7 +22,9 @@
             :key="i"
           />
         </div>
-        <div v-else>Loading...</div>
+        <div v-else class="text-white text-center text-4xl mb-4 h-screen">
+          Loading...
+        </div>
       </div>
       <div v-else>
         <h1 class="text-white text-center text-4xl mb-4 h-screen">
@@ -41,35 +45,23 @@ import { TimeLimitLabel } from "@/utils/constants";
 
 export default Vue.extend({
   name: "HomeView",
+  components: { Song },
   data: () => ({
     url: "",
     topStore: useTopStore(),
     authStore: useAuthStore(),
     userStore: useUserStore(),
   }),
-  components: { Song },
   mounted() {
-    if (this.userLogged) {
+    if (this.authStore.isLogged) {
       const token = this.authStore.token;
       this.topStore.retrieveSongs({ token });
       this.userStore.retriveUsername(token);
     }
   },
   computed: {
-    userLogged() {
-      return this.authStore.isLogged;
-    },
-    isLoading() {
-      return this.topStore.isLoading;
-    },
-    songs() {
-      return this.topStore.getSongs;
-    },
     selectedFilter() {
       return TimeLimitLabel[this.topStore.filter];
-    },
-    username() {
-      return this.userStore.getUsername;
     },
   },
 });

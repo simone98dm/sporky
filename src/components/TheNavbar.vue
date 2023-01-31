@@ -4,14 +4,14 @@
       class="flex justify-between items-center bg-gray-900 shadow-lg p-4 text-white"
     >
       <span class="font-semibold text-xl tracking-tight">Sporky</span>
-      <div v-if="!isLogged">
+      <div v-if="!authStore.isLogged">
         <NavLink label="Login" :href="url" />
       </div>
       <div v-else class="flex flex-row flex-wrap">
         <NavLink label="Top 4 weeks" @click="groupPerWeek" />
         <NavLink label="Top 6 month" @click="groupPerMonth" />
         <NavLink label="Top 1 year" @click="groupPerYear" />
-        <background-audio />
+        <BackgroundAudio />
       </div>
     </nav>
   </header>
@@ -24,7 +24,8 @@ import BackgroundAudio from "./BackgroundAudio.vue";
 import { useAuthStore } from "@/stores/auth";
 import { useTopStore } from "@/stores/top";
 import { buildSpotifyRedirectUrl } from "@/utils/common";
-import { extractTokenFromUrl } from "@/utils/httputils";
+import { extractTokenFromUrl } from "@/utils/http";
+
 export default Vue.extend({
   components: { NavLink, BackgroundAudio },
   name: "TheNavbar",
@@ -33,11 +34,6 @@ export default Vue.extend({
     topStore: useTopStore(),
     url: "",
   }),
-  computed: {
-    isLogged() {
-      return this.authStore.isLogged;
-    },
-  },
   mounted() {
     const { token } = extractTokenFromUrl(this.$route.hash);
     if (!token) {
