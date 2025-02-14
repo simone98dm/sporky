@@ -1,9 +1,9 @@
 import { OAuthTokens } from "~/types";
-import { COOKIE_NAME, redirectUri } from "~/utils/const";
+import { COOKIE_NAME } from "~/utils/const";
 
 export default defineEventHandler(async (event) => {
   const {
-    public: { clientId },
+    public: { clientId, redirectUri },
     clientSecret,
   } = useRuntimeConfig();
 

@@ -10,7 +10,7 @@ export const useSporky = defineStore("sporky-store", () => {
   const timeRange = ref("short_term");
 
   const {
-    public: { clientId },
+    public: { clientId, redirectUri },
   } = useRuntimeConfig();
 
   const login = async () => {
