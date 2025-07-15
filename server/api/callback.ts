@@ -7,10 +7,16 @@ export default defineEventHandler(async (event) => {
     clientSecret,
   } = useRuntimeConfig();
 
-  const { code, state } = getQuery(event);
+  const { code, state, error } = getQuery(event);
+
+
   try {
+    if (error) {
+      return sendRedirect(event, `/login?error=${error}`);
+    }
+
     if (!code) {
-      return sendRedirect(event, "/login");
+      return sendRedirect(event, "/login?error=no_code");
     }
 
     const response = await $fetch<OAuthTokens>(
@@ -31,16 +37,20 @@ export default defineEventHandler(async (event) => {
       }
     );
 
+    // Get protocol from request to set cookie properly
+    const isHttps = getHeader(event, 'x-forwarded-proto') === 'https' ||
+      getRequestURL(event).protocol === 'https:';
+
     setCookie(event, COOKIE_NAME, response.access_token, {
-      secure: true,
-      sameSite: "strict",
+      secure: isHttps, // Only secure in HTTPS
+      sameSite: "lax", // Changed from strict to lax for better compatibility
       maxAge: response.expires_in,
       path: "/",
+      httpOnly: false, // Allow access from client-side
     });
 
     return sendRedirect(event, "/");
   } catch (e) {
-    console.error(e);
-    return sendRedirect(event, "/login?error=true", 500);
+    return sendRedirect(event, "/login?error=auth_failed");
   }
 });

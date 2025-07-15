@@ -2,7 +2,7 @@
   <div>
     <!-- display song info -->
     <div
-      class="rounded-lg shadow-lg bg-neutral-600 dark:bg-gray-600 w-full flex flex-row flex-wrap p-3 antialiased mb-5"
+      class="rounded-lg shadow-lg bg-neutral-600 dark:bg-gray-600 w-full flex flex-row flex-wrap p-3 antialiased mb-5 relative"
       :style="{
         backgroundImage: 'url(' + song.cover + ')',
         backgroundRepeat: 'no-repeat',
@@ -26,11 +26,11 @@
           </div>
           <div v-if="song.artists" class="text-normal text-gray-400 mb-4">
             <span
-              class="border-b border-dashed border-gray-500 pb-1"
+              class="border-b border-dashed border-gray-500 pb-1 mr-2"
               v-for="(artist, i) in song.artists"
               :key="i"
             >
-              {{ song.artist?.name }}
+              {{ artist.name }}{{ i < song.artists.length - 1 ? ',' : '' }}
             </span>
           </div>
           <div class="mb-0">
@@ -48,7 +48,11 @@
 </template>
 
 <script setup lang="ts">
-import { TrackDetail } from "~/types";
+import type { Track } from "~/types";
 
-defineProps<{ song: TrackDetail }>();
+interface NewType {
+  song: Track;
+};
+
+const { song } = defineProps<NewType>();
 </script>

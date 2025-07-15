@@ -1,6 +1,6 @@
+import { COOKIE_NAME } from "~/utils/const";
+
 export default defineNuxtRouteMiddleware(async (to, from) => {
-  const accessToken = useCookie(COOKIE_NAME);
-  if (!accessToken.value && to.path !== "/login") {
-    return navigateTo("/login");
-  }
+  // Middleware disabled - using plugin approach instead
+  return;
 });

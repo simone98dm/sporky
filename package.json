@@ -5,15 +5,21 @@
   "scripts": {
     "build": "nuxt build",
     "dev": "NODE_TLS_REJECT_UNAUTHORIZED=0 nuxt dev --https --ssl-cert cert/localhost.pem --ssl-key cert/localhost-key.pem",
+    "dev:http": "nuxt dev --port 3000",
+    "dev:https": "NODE_TLS_REJECT_UNAUTHORIZED=0 nuxt dev --https --ssl-cert cert/localhost.pem --ssl-key cert/localhost-key.pem --port 3000",
     "generate": "nuxt generate",
     "preview": "nuxt preview",
     "postinstall": "nuxt prepare",
-    "generate-cert": "mkdir -p cert && openssl req -x509 -newkey rsa:4096 -keyout cert/localhost-key.pem -out cert/localhost.pem -sha256 -days 3650 -nodes -subj \"/C=XX/ST=StateName/L=CityName/O=CompanyName/OU=CompanySectionName/CN=CommonNameOrHostname\""
+    "generate-cert": "mkdir -p cert && openssl req -x509 -newkey rsa:4096 -keyout cert/localhost-key.pem -out cert/localhost.pem -days 365 -nodes -subj \"/C=US/ST=Dev/L=Dev/O=Dev/OU=Dev/CN=localhost\" -addext \"subjectAltName=DNS:localhost,IP:127.0.0.1\"",
+    "lint": "eslint --ext .ts,.js,.vue .",
+    "lint:fix": "eslint --ext .ts,.js,.vue . --fix",
+    "format": "prettier --write .",
+    "type-check": "nuxt typecheck"
   },
   "dependencies": {
-    "@nuxtjs/tailwindcss": "6.13.1",
+    "@nuxtjs/tailwindcss": "^6.14.0",
     "@pinia/nuxt": "^0.10.1",
-    "nuxt": "^3.15.4",
+    "nuxt": "^3.17.7",
     "pinia": "^3.0.1",
     "vue": "latest",
     "vue-router": "latest"
