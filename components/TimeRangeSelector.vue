@@ -52,18 +52,27 @@
 </template>
 
 <script setup lang="ts">
+/**
+ * TimeRangeSelector - Time period selection component for music analytics
+ * @example <TimeRangeSelector v-model="timeRange" :disabled="isLoading" />
+ */
 import { TIME_RANGE_LABELS } from "~/utils/const";
 
-interface Props {
+// Props Interface - Named [ComponentName]Props
+interface TimeRangeSelectorProps {
     modelValue: string;
     disabled?: boolean;
 }
 
-defineProps<Props>();
+// Props Destructuring with defaults
+const { modelValue, disabled = false } = defineProps<TimeRangeSelectorProps>();
 
-defineEmits<{
+// Emits Interface - Named [ComponentName]Events
+interface TimeRangeSelectorEvents {
     "update:modelValue": [value: string];
-}>();
+}
+
+defineEmits<TimeRangeSelectorEvents>();
 
 const getTimeRangeTitle = (value: string) => {
     const titles = {

@@ -23,9 +23,16 @@
 </template>
 
 <script setup lang="ts">
-interface Props {
+/**
+ * LoadingSpinner - Animated loading indicator with optional message
+ * @example <LoadingSpinner message="Loading your tracks..." />
+ */
+
+// Props Interface - Named [ComponentName]Props
+interface LoadingSpinnerProps {
     message?: string;
 }
 
-defineProps<Props>();
+// Props Destructuring with defaults
+const { message } = defineProps<LoadingSpinnerProps>();
 </script>

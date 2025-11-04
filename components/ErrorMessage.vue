@@ -51,17 +51,32 @@
 </template>
 
 <script setup lang="ts">
-interface Props {
+/**
+ * ErrorMessage - Error display component with retry and dismiss actions
+ * @example <ErrorMessage message="Failed to load" :show-retry="true" @retry="handleRetry" />
+ */
+
+// Props Interface - Named [ComponentName]Props
+interface ErrorMessageProps {
     message: string;
     title?: string;
     showRetry?: boolean;
     dismissible?: boolean;
 }
 
-defineProps<Props>();
+// Props Destructuring with defaults
+const {
+    message,
+    title,
+    showRetry = false,
+    dismissible = false
+} = defineProps<ErrorMessageProps>();
 
-defineEmits<{
+// Emits Interface - Named [ComponentName]Events
+interface ErrorMessageEvents {
     retry: [];
     dismiss: [];
-}>();
+}
+
+defineEmits<ErrorMessageEvents>();
 </script>

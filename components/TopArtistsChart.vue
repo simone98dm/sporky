@@ -71,16 +71,12 @@
 </template>
 
 <script setup lang="ts">
+/**
+ * TopArtistsChart - Bar chart visualization of most played artists
+ * @example <TopArtistsChart :tracks="currentTracks" />
+ */
 import { ref, computed } from 'vue';
-
-interface Track {
-    name: string;
-    artists: { name: string }[];
-    album: string;
-    cover: string;
-    url: string;
-    preview: string;
-}
+import type { Track } from '~/types';
 
 interface ArtistData {
     name: string;
@@ -88,18 +84,22 @@ interface ArtistData {
     percentage: number;
 }
 
-interface Props {
+// Props Interface - Named [ComponentName]Props
+interface TopArtistsChartProps {
     tracks: Track[];
 }
 
-const props = defineProps<Props>();
+// Props Destructuring with defaults
+const { tracks } = defineProps<TopArtistsChartProps>();
+
 const showAll = ref(false);
 
+// Computed properties - Artist analytics
 const artistsData = computed(() => {
     const artistCounts = new Map<string, number>();
 
     // Count artist occurrences
-    props.tracks.forEach(track => {
+    tracks.forEach(track => {
         track.artists.forEach(artist => {
             const count = artistCounts.get(artist.name) || 0;
             artistCounts.set(artist.name, count + 1);

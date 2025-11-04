@@ -51,9 +51,14 @@
 </template>
 
 <script setup lang="ts">
+/**
+ * StatsCard - Statistics display card with icon, progress bar, and gradient styling
+ * @example <StatsCard title="Total Tracks" :value="50" icon="music" color="green" />
+ */
 import { computed } from 'vue';
 
-interface Props {
+// Props Interface - Named [ComponentName]Props
+interface StatsCardProps {
     title: string;
     subtitle?: string;
     value: string | number;
@@ -65,11 +70,20 @@ interface Props {
     color?: 'green' | 'blue' | 'purple' | 'pink' | 'orange';
 }
 
-const props = withDefaults(defineProps<Props>(), {
-    icon: 'music',
-    color: 'green',
-});
+// Props Destructuring with defaults
+const {
+    title,
+    subtitle,
+    value,
+    description,
+    change,
+    changeType,
+    progress,
+    icon = 'music',
+    color = 'green'
+} = defineProps<StatsCardProps>();
 
+// Computed properties
 const gradientClass = computed(() => {
     const gradients = {
         green: 'from-green-400 to-emerald-500',
@@ -78,7 +92,7 @@ const gradientClass = computed(() => {
         pink: 'from-pink-400 to-rose-500',
         orange: 'from-orange-400 to-amber-500',
     };
-    return gradients[props.color];
+    return gradients[color];
 });
 
 const iconPath = computed(() => {
@@ -88,6 +102,6 @@ const iconPath = computed(() => {
         time: 'M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z',
         heart: 'M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z'
     };
-    return paths[props.icon];
+    return paths[icon];
 });
 </script>

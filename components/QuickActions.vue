@@ -13,25 +13,45 @@
     </div>
     
     <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-      <!-- Share Playlist -->
+      <!-- Save to Spotify Playlist -->
       <button
         class="group relative p-4 bg-gradient-to-r from-green-500/20 to-emerald-500/20 hover:from-green-500/30 hover:to-emerald-500/30 border border-green-400/30 hover:border-green-400/50 rounded-2xl transition-all duration-300 transform hover:scale-105"
-        @click="sharePlaylist"
+        @click="saveToSpotifyPlaylist"
         :disabled="isLoading"
       >
         <div class="flex items-center gap-3">
           <div class="w-10 h-10 bg-gradient-to-r from-green-400 to-emerald-500 rounded-xl flex items-center justify-center">
+            <svg class="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 24 24">
+              <path d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.66 0 12 0zm5.521 17.34c-.24.359-.66.48-1.021.24-2.82-1.74-6.36-2.101-10.561-1.141-.418.122-.84-.179-.84-.66 0-.42.179-.78.54-.84 4.56-1.021 8.52-.6 11.64 1.32.42.18.479.659.242 1.081zm1.44-3.3c-.301.42-.841.6-1.262.3-3.239-1.98-8.159-2.58-11.939-1.38-.479.12-1.02-.12-1.14-.6-.12-.48.12-1.021.6-1.141C9.6 9.9 15 10.561 18.72 12.84c.361.181.54.78.241 1.2zm.12-3.36C15.24 8.4 8.82 8.16 5.16 9.301c-.6.179-1.2-.181-1.38-.721-.18-.601.18-1.2.72-1.381 4.26-1.26 11.28-1.02 15.721 1.621.539.3.719 1.02.419 1.56-.299.421-1.02.599-1.559.3z"/>
+            </svg>
+          </div>
+          <div class="text-left">
+            <h4 class="text-white font-semibold">Save to Spotify</h4>
+            <p class="text-sm text-gray-300">Create playlist</p>
+          </div>
+        </div>
+        <div v-if="isLoading" class="absolute inset-0 bg-black/20 rounded-2xl flex items-center justify-center">
+          <div class="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+        </div>
+      </button>
+
+      <!-- Share Playlist URL -->
+      <button
+        v-if="lastCreatedPlaylistUrl"
+        class="group relative p-4 bg-gradient-to-r from-blue-500/20 to-cyan-500/20 hover:from-blue-500/30 hover:to-cyan-500/30 border border-blue-400/30 hover:border-blue-400/50 rounded-2xl transition-all duration-300 transform hover:scale-105"
+        @click="sharePlaylistUrl"
+        :disabled="isLoading"
+      >
+        <div class="flex items-center gap-3">
+          <div class="w-10 h-10 bg-gradient-to-r from-blue-400 to-cyan-500 rounded-xl flex items-center justify-center">
             <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.367 2.684 3 3 0 00-5.367-2.684z"/>
             </svg>
           </div>
           <div class="text-left">
             <h4 class="text-white font-semibold">Share Playlist</h4>
-            <p class="text-sm text-gray-300">Create shareable link</p>
+            <p class="text-sm text-gray-300">Copy link to clipboard</p>
           </div>
-        </div>
-        <div v-if="isLoading" class="absolute inset-0 bg-black/20 rounded-2xl flex items-center justify-center">
-          <div class="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
         </div>
       </button>
       
@@ -97,25 +117,6 @@
           </div>
         </div>
       </button>
-      
-      <!-- Save Favorites -->
-      <button
-        class="group relative p-4 bg-gradient-to-r from-yellow-500/20 to-orange-500/20 hover:from-yellow-500/30 hover:to-orange-500/30 border border-yellow-400/30 hover:border-yellow-400/50 rounded-2xl transition-all duration-300 transform hover:scale-105"
-        @click="saveFavorites"
-        :disabled="isLoading"
-      >
-        <div class="flex items-center gap-3">
-          <div class="w-10 h-10 bg-gradient-to-r from-yellow-400 to-orange-500 rounded-xl flex items-center justify-center">
-            <svg class="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 24 24">
-              <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
-            </svg>
-          </div>
-          <div class="text-left">
-            <h4 class="text-white font-semibold">Save Favorites</h4>
-            <p class="text-sm text-gray-300">Bookmark list</p>
-          </div>
-        </div>
-      </button>
     </div>
     
     <!-- Status Messages -->
@@ -128,27 +129,27 @@
 </template>
 
 <script setup lang="ts">
+/**
+ * QuickActions - Action buttons for sharing, exporting, and managing tracks
+ * @example <QuickActions :tracks="currentTracks" :time-range="timeRange" />
+ */
 import { ref, onMounted, onUnmounted } from 'vue';
+import type { Track } from '~/types';
 
-interface Track {
-    name: string;
-    artists: { name: string }[];
-    album: string;
-    cover: string;
-    url: string;
-    preview: string;
-}
-
-interface Props {
+// Props Interface - Named [ComponentName]Props
+interface QuickActionsProps {
     tracks: Track[];
     timeRange: string;
 }
 
-const props = defineProps<Props>();
+// Props Destructuring with defaults
+const { tracks, timeRange } = defineProps<QuickActionsProps>();
 
+const sporkyStore = useSporky();
 const showExportMenu = ref(false);
 const isLoading = ref(false);
 const statusMessage = ref<{ type: 'success' | 'error'; text: string } | null>(null);
+const lastCreatedPlaylistUrl = ref<string | null>(null);
 
 const exportFormats = [
     {
@@ -175,30 +176,32 @@ const toggleExportMenu = () => {
     showExportMenu.value = !showExportMenu.value;
 };
 
-const sharePlaylist = async () => {
+const saveToSpotifyPlaylist = async () => {
     isLoading.value = true;
     try {
-        // Create a shareable text
-        const shareText = `🎵 My Top Tracks (${props.timeRange})\n\n${props.tracks.slice(0, 10).map((track, index) =>
-            `${index + 1}. ${track.name} - ${track.artists.map(a => a.name).join(', ')}`
-        ).join('\n')}\n\nGenerated by Sporky 🎶`;
-
-        if (navigator.share) {
-            await navigator.share({
-                title: 'My Top Tracks',
-                text: shareText,
-                url: window.location.href
-            });
-            showStatusMessage('Shared successfully!', 'success');
+        const result = await sporkyStore.createSpotifyPlaylist();
+        
+        if (result.success && result.playlistUrl) {
+            lastCreatedPlaylistUrl.value = result.playlistUrl;
+            showStatusMessage('Playlist created on Spotify!', 'success');
         } else {
-            // Fallback to clipboard
-            await navigator.clipboard.writeText(shareText);
-            showStatusMessage('Copied to clipboard!', 'success');
+            showStatusMessage(result.error || 'Failed to create playlist', 'error');
         }
     } catch (error) {
-        showStatusMessage('Failed to share playlist', 'error');
+        showStatusMessage('Failed to create playlist', 'error');
     } finally {
         isLoading.value = false;
+    }
+};
+
+const sharePlaylistUrl = async () => {
+    if (!lastCreatedPlaylistUrl.value) return;
+    
+    try {
+        await navigator.clipboard.writeText(lastCreatedPlaylistUrl.value);
+        showStatusMessage('Playlist URL copied to clipboard!', 'success');
+    } catch (error) {
+        showStatusMessage('Failed to copy to clipboard', 'error');
     }
 };
 
@@ -215,27 +218,27 @@ const exportData = (format: string) => {
 
         switch (format) {
             case 'json':
-                content = JSON.stringify(props.tracks, null, 2);
+                content = JSON.stringify(tracks, null, 2);
                 mimeType = 'application/json';
-                filename = `sporky-tracks-${props.timeRange}-${timestamp}.json`;
+                filename = `sporky-tracks-${timeRange}-${timestamp}.json`;
                 break;
 
             case 'csv':
                 const csvHeader = 'Track Name,Artists,Album,Spotify URL\n';
-                const csvRows = props.tracks.map(track =>
+                const csvRows = tracks.map(track =>
                     `"${track.name}","${track.artists.map(a => a.name).join('; ')}","${track.album}","${track.url}"`
                 ).join('\n');
                 content = csvHeader + csvRows;
                 mimeType = 'text/csv';
-                filename = `sporky-tracks-${props.timeRange}-${timestamp}.csv`;
+                filename = `sporky-tracks-${timeRange}-${timestamp}.csv`;
                 break;
 
             case 'txt':
-                content = `My Top Tracks (${props.timeRange}) - Generated ${new Date().toLocaleDateString()}\n\n${props.tracks.map((track, index) =>
+                content = `My Top Tracks (${timeRange}) - Generated ${new Date().toLocaleDateString()}\n\n${tracks.map((track, index) =>
                     `${index + 1}. ${track.name} - ${track.artists.map(a => a.name).join(', ')}`
                 ).join('\n')}`;
                 mimeType = 'text/plain';
-                filename = `sporky-tracks-${props.timeRange}-${timestamp}.txt`;
+                filename = `sporky-tracks-${timeRange}-${timestamp}.txt`;
                 break;
         }
 
@@ -276,8 +279,8 @@ const saveFavorites = () => {
     try {
         // Save to localStorage as a simple bookmark system
         const favorites = {
-            timeRange: props.timeRange,
-            tracks: props.tracks,
+            timeRange: timeRange,
+            tracks: tracks,
             savedAt: new Date().toISOString()
         };
 

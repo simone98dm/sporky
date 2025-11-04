@@ -95,27 +95,25 @@
 </template>
 
 <script setup lang="ts">
+/**
+ * MusicDNA - Genre analysis and music taste characteristics display
+ * @example <MusicDNA :tracks="currentTracks" />
+ */
 import { computed } from 'vue';
+import type { Track } from '~/types';
 
-interface Track {
-    name: string;
-    artists: { name: string }[];
-    album: string;
-    cover: string;
-    url: string;
-    preview: string;
-}
-
-interface Props {
+// Props Interface - Named [ComponentName]Props
+interface MusicDNAProps {
     tracks: Track[];
 }
 
-const props = defineProps<Props>();
+// Props Destructuring with defaults
+const { tracks } = defineProps<MusicDNAProps>();
 
-// Genre extraction and analysis
+// Computed properties - Genre extraction and analysis
 const genreTags = computed(() => {
     const genreCounts = new Map<string, number>();
-    const totalTracks = props.tracks.length;
+    const totalTracks = tracks.length;
 
     // Extract genres from artists (this is a simplified approach since Spotify's track API doesn't include genres)
     // In a real implementation, you'd need to fetch artist details to get genres
@@ -125,7 +123,7 @@ const genreTags = computed(() => {
     ];
 
     // Mock genre assignment based on artist names (in real app, use Spotify's artist API)
-    props.tracks.forEach(() => {
+    tracks.forEach(() => {
         const randomGenre = mockGenres[Math.floor(Math.random() * mockGenres.length)];
         const count = genreCounts.get(randomGenre) || 0;
         genreCounts.set(randomGenre, count + 1);
@@ -143,21 +141,21 @@ const genreTags = computed(() => {
 // Artist diversity calculation
 const diversityScore = computed(() => {
     const uniqueArtists = new Set();
-    props.tracks.forEach(track => {
+    tracks.forEach(track => {
         track.artists.forEach(artist => {
             uniqueArtists.add(artist.name);
         });
     });
 
-    return Math.min(Math.round((uniqueArtists.size / props.tracks.length) * 100), 100);
+    return Math.min(Math.round((uniqueArtists.size / tracks.length) * 100), 100);
 });
 
 // Era spread calculation (simplified since album is a string)
 const eraSpread = computed(() => {
     // Since we don't have release dates in the current track structure,
     // we'll simulate era diversity based on track variety
-    const trackNames = new Set(props.tracks.map(track => track.name));
-    const diversityFactor = trackNames.size / props.tracks.length;
+    const trackNames = new Set(tracks.map(track => track.name));
+    const diversityFactor = trackNames.size / tracks.length;
 
     return Math.min(Math.round(diversityFactor * 100), 100);
 });
@@ -178,7 +176,7 @@ const tasteIndicators = computed(() => {
         indicators.push({ name: 'Time Traveler', color: 'bg-cyan-500/20 text-cyan-300 border border-cyan-400/30' });
     }
 
-    if (props.tracks.length > 40) {
+    if (tracks.length > 40) {
         indicators.push({ name: 'Power Listener', color: 'bg-green-500/20 text-green-300 border border-green-400/30' });
     }
 

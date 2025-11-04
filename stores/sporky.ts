@@ -9,7 +9,8 @@ import {
   OAUTH_STATE_COOKIE,
   SPOTIFY_AUTH_BASE,
   TIME_RANGES,
-  DEFAULT_TRACK_LIMIT
+  DEFAULT_TRACK_LIMIT,
+  SPOTIFY_SCOPES
 } from "~/utils/const";
 
 // Types for better type safety
@@ -18,7 +19,12 @@ type ApiState = "idle" | "loading" | "success" | "error";
 
 export const useSporky = defineStore("sporky-store", () => {
   // Composables
-  const { getCurrentUser, getTopTracks: fetchTopTracks } = useSpotifyApi();
+  const {
+    getCurrentUser,
+    getTopTracks: fetchTopTracks,
+    createPlaylist,
+    addTracksToPlaylist
+  } = useSpotifyApi();
 
   // Cookie reference (create once, reuse everywhere)
   const accessToken = useCookie(COOKIE_NAME);
@@ -41,6 +47,43 @@ export const useSporky = defineStore("sporky-store", () => {
   const isAuthenticated = computed(() => {
     return !!accessToken.value;
   });
+
+  // Business logic: Computed properties for music analytics
+  const uniqueArtistsCount = computed(() => {
+    const artistNames = new Set<string>();
+    currentTracks.value.forEach(track => {
+      track.artists.forEach(artist => {
+        artistNames.add(artist.name);
+      });
+    });
+    return artistNames.size;
+  });
+
+  const topArtistData = computed(() => {
+    const artistCounts = new Map<string, number>();
+
+    currentTracks.value.forEach(track => {
+      track.artists.forEach(artist => {
+        const count = artistCounts.get(artist.name) || 0;
+        artistCounts.set(artist.name, count + 1);
+      });
+    });
+
+    let topArtist = '';
+    let maxCount = 0;
+
+    artistCounts.forEach((count, artist) => {
+      if (count > maxCount) {
+        maxCount = count;
+        topArtist = artist;
+      }
+    });
+
+    return { name: topArtist || 'Unknown', count: maxCount };
+  });
+
+  const topArtistName = computed(() => topArtistData.value.name);
+  const topArtistCount = computed(() => topArtistData.value.count);
 
   // Helper functions
   const clearError = () => {
@@ -78,7 +121,7 @@ export const useSporky = defineStore("sporky-store", () => {
 
       const authorizeUrl = `${SPOTIFY_AUTH_BASE}/authorize?client_id=${clientId}&response_type=code&redirect_uri=${encodeURIComponent(
         redirectUri
-      )}&scope=user-top-read&state=${state}`;
+      )}&scope=${encodeURIComponent(SPOTIFY_SCOPES)}&state=${state}`;
 
       // Store state for validation (optional security enhancement)
       const stateCookie = useCookie(OAUTH_STATE_COOKIE);
@@ -94,7 +137,6 @@ export const useSporky = defineStore("sporky-store", () => {
       }
     } catch (error) {
       setError("Failed to initiate login");
-      console.error("Login error:", error);
     }
   };
 
@@ -118,7 +160,6 @@ export const useSporky = defineStore("sporky-store", () => {
 
       navigateTo("/login");
     } catch (error) {
-      console.error("Logout error:", error);
       // Force navigation even if there's an error
       navigateTo("/login");
     }
@@ -138,7 +179,6 @@ export const useSporky = defineStore("sporky-store", () => {
       return response;
     } catch (error: any) {
       setError(error.message || "Failed to fetch user profile");
-      console.error("Error getting user profile:", error);
 
       // If unauthorized, redirect to login
       if (error.isUnauthorized) {
@@ -170,7 +210,6 @@ export const useSporky = defineStore("sporky-store", () => {
       apiState.value = "success";
     } catch (error: any) {
       setError(error.message || "Failed to fetch top tracks");
-      console.error("Error getting top tracks:", error);
 
       // If unauthorized, redirect to login
       if (error.isUnauthorized) {
@@ -185,6 +224,63 @@ export const useSporky = defineStore("sporky-store", () => {
     await getTopTracks();
   };
 
+  // Create Spotify playlist with current tracks
+  const createSpotifyPlaylist = async (
+    playlistName?: string,
+    playlistDescription?: string
+  ): Promise<{ success: boolean; playlistUrl?: string; error?: string }> => {
+    try {
+      // Ensure user profile is loaded
+      if (!userProfile.value) {
+        await getUserProfile();
+      }
+
+      if (!userProfile.value?.id) {
+        return { success: false, error: "User profile not available" };
+      }
+
+      // Get track URIs from current tracks
+      // Note: track.url already contains the Spotify URI (spotify:track:{id})
+      const trackUris = currentTracks.value
+        .map(track => track.url)
+        .filter((uri): uri is string => uri !== null && uri.startsWith('spotify:track:'));
+
+      if (trackUris.length === 0) {
+        return { success: false, error: "No tracks available to add" };
+      }
+
+      // Generate playlist name based on time range
+      const timeRangeLabels = {
+        short_term: "Last 4 Weeks",
+        medium_term: "Last 6 Months",
+        long_term: "All Time"
+      };
+      const defaultName = playlistName || `My Top Tracks - ${timeRangeLabels[timeRange.value]}`;
+      const defaultDescription = playlistDescription || `Generated by Sporky on ${new Date().toLocaleDateString()}`;
+
+      // Create the playlist
+      const playlist = await createPlaylist(
+        userProfile.value.id,
+        defaultName,
+        defaultDescription,
+        false // private by default
+      );
+
+      // Add tracks to the playlist
+      await addTracksToPlaylist(playlist.id, trackUris);
+
+      return {
+        success: true,
+        playlistUrl: playlist.external_urls.spotify
+      };
+    } catch (error: any) {
+      return {
+        success: false,
+        error: error.message || "Failed to create playlist"
+      };
+    }
+  };
+
   return {
     // State
     errorMessage: readonly(errorMessage),
@@ -197,6 +293,10 @@ export const useSporky = defineStore("sporky-store", () => {
     hasError,
     currentTracks,
     isAuthenticated,
+    uniqueArtistsCount,
+    topArtistData,
+    topArtistName,
+    topArtistCount,
 
     // Actions
     login,
@@ -204,6 +304,7 @@ export const useSporky = defineStore("sporky-store", () => {
     getUserProfile,
     getTopTracks,
     setTimeRange,
+    createSpotifyPlaylist,
     clearError,
   };
 });

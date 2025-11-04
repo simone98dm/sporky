@@ -228,45 +228,11 @@ const {
   timeRange,
   isLoading,
   hasError,
-  currentTracks
+  currentTracks,
+  uniqueArtistsCount,
+  topArtistName,
+  topArtistCount
 } = storeToRefs(client);
-
-// Computed properties for stats
-const uniqueArtistsCount = computed(() => {
-  const artistNames = new Set();
-  currentTracks.value.forEach(track => {
-    track.artists.forEach(artist => {
-      artistNames.add(artist.name);
-    });
-  });
-  return artistNames.size;
-});
-
-const topArtistData = computed(() => {
-  const artistCounts = new Map();
-
-  currentTracks.value.forEach(track => {
-    track.artists.forEach(artist => {
-      const count = artistCounts.get(artist.name) || 0;
-      artistCounts.set(artist.name, count + 1);
-    });
-  });
-
-  let topArtist = '';
-  let maxCount = 0;
-
-  artistCounts.forEach((count, artist) => {
-    if (count > maxCount) {
-      maxCount = count;
-      topArtist = artist;
-    }
-  });
-
-  return { name: topArtist || 'Unknown', count: maxCount };
-});
-
-const topArtistName = computed(() => topArtistData.value.name);
-const topArtistCount = computed(() => topArtistData.value.count);
 
 const handleRetry = async () => {
   await client.getTopTracks();

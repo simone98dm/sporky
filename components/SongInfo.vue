@@ -34,12 +34,12 @@
             </span>
           </div>
           <div class="mb-0">
-            <a
-              class="bg-gray-500 px-4 py-2 rounded-md text-white text-sm cursor-pointer song-url m-3"
-              :href="song.url"
-              target="_black"
-              >Open</a
+            <button
+              @click="handleOpenSpotify"
+              class="bg-gray-500 hover:bg-gray-600 px-4 py-2 rounded-md text-white text-sm cursor-pointer song-url m-3 transition-colors duration-200"
             >
+              Open in Spotify
+            </button>
           </div>
         </div>
       </div>
@@ -48,11 +48,34 @@
 </template>
 
 <script setup lang="ts">
+/**
+ * SongInfo - Displays individual track information with album art and metadata
+ * @example <SongInfo :song="track" @open-spotify="handleOpen" />
+ */
 import type { Track } from "~/types";
 
-interface NewType {
+// Props Interface - Named [ComponentName]Props
+interface SongInfoProps {
   song: Track;
-};
+}
 
-const { song } = defineProps<NewType>();
+// Props Destructuring with defaults
+const { song } = defineProps<SongInfoProps>();
+
+// Emits Interface - Named [ComponentName]Events
+interface SongInfoEvents {
+  'open-spotify': [url: string];
+}
+
+const emit = defineEmits<SongInfoEvents>();
+
+// Computed properties
+const formattedArtists = computed(() => {
+  return song.artists.map(artist => artist.name).join(', ');
+});
+
+// Methods
+function handleOpenSpotify() {
+  emit('open-spotify', song.url);
+}
 </script>

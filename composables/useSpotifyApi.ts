@@ -64,9 +64,39 @@ export const useSpotifyApi = () => {
         });
     };
 
+    const createPlaylist = async (
+        userId: string,
+        name: string,
+        description?: string,
+        isPublic: boolean = false
+    ): Promise<{ id: string; external_urls: { spotify: string } }> => {
+        return apiRequest(`/users/${userId}/playlists`, {
+            method: "POST",
+            body: {
+                name,
+                description,
+                public: isPublic,
+            },
+        });
+    };
+
+    const addTracksToPlaylist = async (
+        playlistId: string,
+        trackUris: string[]
+    ): Promise<{ snapshot_id: string }> => {
+        return apiRequest(`/playlists/${playlistId}/tracks`, {
+            method: "POST",
+            body: {
+                uris: trackUris,
+            },
+        });
+    };
+
     return {
         getCurrentUser,
         getTopTracks,
+        createPlaylist,
+        addTracksToPlaylist,
         apiRequest,
     };
 };

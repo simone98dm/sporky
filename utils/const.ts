@@ -23,3 +23,6 @@ export const TIME_RANGE_LABELS = {
 // API limits
 export const DEFAULT_TRACK_LIMIT = 10;
 export const MAX_TRACK_LIMIT = 50;
+
+// Spotify OAuth scopes
+export const SPOTIFY_SCOPES = "user-top-read user-read-private user-read-email playlist-modify-public playlist-modify-private";
