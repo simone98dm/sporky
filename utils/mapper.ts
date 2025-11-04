@@ -1,4 +1,4 @@
-import type { Track, TrackDetails } from "~/types";
+import type { Track, TrackDetails } from '~/types';
 
 export function mapTrackToSong(track: TrackDetails): Track {
   return {

@@ -11,8 +11,9 @@
     "preview": "nuxt preview",
     "postinstall": "nuxt prepare",
     "generate-cert": "mkdir -p cert && openssl req -x509 -newkey rsa:4096 -keyout cert/localhost-key.pem -out cert/localhost.pem -days 365 -nodes -subj \"/C=US/ST=Dev/L=Dev/O=Dev/OU=Dev/CN=localhost\" -addext \"subjectAltName=DNS:localhost,IP:127.0.0.1\"",
-    "lint": "eslint --ext .ts,.js,.vue .",
-    "lint:fix": "eslint --ext .ts,.js,.vue . --fix",
+    "lint": "prettier --write .",
+    "lint:check": "prettier --check .",
+    "lint:commit": "commitlint --edit",
     "format": "prettier --write .",
     "type-check": "nuxt typecheck"
   },
@@ -21,6 +22,7 @@
     "@pinia/nuxt": "^0.10.1",
     "nuxt": "^3.17.7",
     "pinia": "^3.0.1",
+    "prettier": "^3.6.2",
     "vue": "latest",
     "vue-router": "latest"
   },

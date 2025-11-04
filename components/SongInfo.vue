@@ -52,7 +52,7 @@
  * SongInfo - Displays individual track information with album art and metadata
  * @example <SongInfo :song="track" @open-spotify="handleOpen" />
  */
-import type { Track } from "~/types";
+import type { Track } from '~/types';
 
 // Props Interface - Named [ComponentName]Props
 interface SongInfoProps {
@@ -71,7 +71,7 @@ const emit = defineEmits<SongInfoEvents>();
 
 // Computed properties
 const formattedArtists = computed(() => {
-  return song.artists.map(artist => artist.name).join(', ');
+  return song.artists.map((artist) => artist.name).join(', ');
 });
 
 // Methods

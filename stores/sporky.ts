@@ -1,29 +1,29 @@
-import { ref, computed } from "vue";
-import { defineStore } from "pinia";
-import type { UserDTO, Track, TrackDTO } from "~/types";
-import { mapTrackToSong } from "~/utils/mapper";
-import { generateRandomString } from "~/utils/common";
-import { useSpotifyApi } from "~/composables/useSpotifyApi";
+import { ref, computed } from 'vue';
+import { defineStore } from 'pinia';
+import type { UserDTO, Track, TrackDTO } from '~/types';
+import { mapTrackToSong } from '~/utils/mapper';
+import { generateRandomString } from '~/utils/common';
+import { useSpotifyApi } from '~/composables/useSpotifyApi';
 import {
   COOKIE_NAME,
   OAUTH_STATE_COOKIE,
   SPOTIFY_AUTH_BASE,
   TIME_RANGES,
   DEFAULT_TRACK_LIMIT,
-  SPOTIFY_SCOPES
-} from "~/utils/const";
+  SPOTIFY_SCOPES,
+} from '~/utils/const';
 
 // Types for better type safety
-type TimeRange = "short_term" | "medium_term" | "long_term";
-type ApiState = "idle" | "loading" | "success" | "error";
+type TimeRange = 'short_term' | 'medium_term' | 'long_term';
+type ApiState = 'idle' | 'loading' | 'success' | 'error';
 
-export const useSporky = defineStore("sporky-store", () => {
+export const useSporky = defineStore('sporky-store', () => {
   // Composables
   const {
     getCurrentUser,
     getTopTracks: fetchTopTracks,
     createPlaylist,
-    addTracksToPlaylist
+    addTracksToPlaylist,
   } = useSpotifyApi();
 
   // Cookie reference (create once, reuse everywhere)
@@ -37,12 +37,12 @@ export const useSporky = defineStore("sporky-store", () => {
     long_term: [],
   });
   const timeRange = ref<TimeRange>(TIME_RANGES.SHORT_TERM);
-  const apiState = ref<ApiState>("idle");
+  const apiState = ref<ApiState>('idle');
   const userProfile = ref<UserDTO | null>(null);
 
   // Computed
-  const isLoading = computed(() => apiState.value === "loading");
-  const hasError = computed(() => apiState.value === "error");
+  const isLoading = computed(() => apiState.value === 'loading');
+  const hasError = computed(() => apiState.value === 'error');
   const currentTracks = computed(() => tracks.value[timeRange.value]);
   const isAuthenticated = computed(() => {
     return !!accessToken.value;
@@ -51,8 +51,8 @@ export const useSporky = defineStore("sporky-store", () => {
   // Business logic: Computed properties for music analytics
   const uniqueArtistsCount = computed(() => {
     const artistNames = new Set<string>();
-    currentTracks.value.forEach(track => {
-      track.artists.forEach(artist => {
+    currentTracks.value.forEach((track) => {
+      track.artists.forEach((artist) => {
         artistNames.add(artist.name);
       });
     });
@@ -62,8 +62,8 @@ export const useSporky = defineStore("sporky-store", () => {
   const topArtistData = computed(() => {
     const artistCounts = new Map<string, number>();
 
-    currentTracks.value.forEach(track => {
-      track.artists.forEach(artist => {
+    currentTracks.value.forEach((track) => {
+      track.artists.forEach((artist) => {
         const count = artistCounts.get(artist.name) || 0;
         artistCounts.set(artist.name, count + 1);
       });
@@ -88,22 +88,22 @@ export const useSporky = defineStore("sporky-store", () => {
   // Helper functions
   const clearError = () => {
     errorMessage.value = null;
-    apiState.value = "idle";
+    apiState.value = 'idle';
   };
 
   const setError = (message: string) => {
     errorMessage.value = message;
-    apiState.value = "error";
+    apiState.value = 'error';
   };
 
   const setLoading = () => {
     clearError();
-    apiState.value = "loading";
+    apiState.value = 'loading';
   };
 
   const getAccessToken = () => {
     if (!accessToken.value) {
-      throw new Error("No access token found");
+      throw new Error('No access token found');
     }
     return accessToken.value;
   };
@@ -120,7 +120,7 @@ export const useSporky = defineStore("sporky-store", () => {
       const state = generateRandomString(16);
 
       const authorizeUrl = `${SPOTIFY_AUTH_BASE}/authorize?client_id=${clientId}&response_type=code&redirect_uri=${encodeURIComponent(
-        redirectUri
+        redirectUri,
       )}&scope=${encodeURIComponent(SPOTIFY_SCOPES)}&state=${state}`;
 
       // Store state for validation (optional security enhancement)
@@ -136,18 +136,18 @@ export const useSporky = defineStore("sporky-store", () => {
         }
       }
     } catch (error) {
-      setError("Failed to initiate login");
+      setError('Failed to initiate login');
     }
   };
 
   const logout = () => {
     try {
       // Clear access token using the shared reference
-      accessToken.value = "";
+      accessToken.value = '';
 
       // Clear oauth state
       const stateCookie = useCookie(OAUTH_STATE_COOKIE);
-      stateCookie.value = "";
+      stateCookie.value = '';
 
       // Reset store state
       tracks.value = {
@@ -158,10 +158,10 @@ export const useSporky = defineStore("sporky-store", () => {
       userProfile.value = null;
       clearError();
 
-      navigateTo("/login");
+      navigateTo('/login');
     } catch (error) {
       // Force navigation even if there's an error
-      navigateTo("/login");
+      navigateTo('/login');
     }
   };
 
@@ -175,10 +175,10 @@ export const useSporky = defineStore("sporky-store", () => {
       const response = await getCurrentUser();
 
       userProfile.value = response;
-      apiState.value = "success";
+      apiState.value = 'success';
       return response;
     } catch (error: any) {
-      setError(error.message || "Failed to fetch user profile");
+      setError(error.message || 'Failed to fetch user profile');
 
       // If unauthorized, redirect to login
       if (error.isUnauthorized) {
@@ -190,9 +190,9 @@ export const useSporky = defineStore("sporky-store", () => {
   };
 
   const getTopTracks = async (
-    type: string = "tracks",
+    type: string = 'tracks',
     offset: number = 0,
-    limit: number = DEFAULT_TRACK_LIMIT
+    limit: number = DEFAULT_TRACK_LIMIT,
   ): Promise<void> => {
     // Return early if already have data for this time range
     if (tracks.value[timeRange.value].length > 0 && offset === 0) {
@@ -205,11 +205,12 @@ export const useSporky = defineStore("sporky-store", () => {
       const songs = response.items.map((item) => mapTrackToSong(item));
 
       // Properly update the tracks for the current time range
-      tracks.value[timeRange.value] = offset === 0 ? songs : [...tracks.value[timeRange.value], ...songs];
+      tracks.value[timeRange.value] =
+        offset === 0 ? songs : [...tracks.value[timeRange.value], ...songs];
 
-      apiState.value = "success";
+      apiState.value = 'success';
     } catch (error: any) {
-      setError(error.message || "Failed to fetch top tracks");
+      setError(error.message || 'Failed to fetch top tracks');
 
       // If unauthorized, redirect to login
       if (error.isUnauthorized) {
@@ -227,7 +228,7 @@ export const useSporky = defineStore("sporky-store", () => {
   // Create Spotify playlist with current tracks
   const createSpotifyPlaylist = async (
     playlistName?: string,
-    playlistDescription?: string
+    playlistDescription?: string,
   ): Promise<{ success: boolean; playlistUrl?: string; error?: string }> => {
     try {
       // Ensure user profile is loaded
@@ -236,34 +237,40 @@ export const useSporky = defineStore("sporky-store", () => {
       }
 
       if (!userProfile.value?.id) {
-        return { success: false, error: "User profile not available" };
+        return { success: false, error: 'User profile not available' };
       }
 
       // Get track URIs from current tracks
       // Note: track.url already contains the Spotify URI (spotify:track:{id})
       const trackUris = currentTracks.value
-        .map(track => track.url)
-        .filter((uri): uri is string => uri !== null && uri.startsWith('spotify:track:'));
+        .map((track) => track.url)
+        .filter(
+          (uri): uri is string =>
+            uri !== null && uri.startsWith('spotify:track:'),
+        );
 
       if (trackUris.length === 0) {
-        return { success: false, error: "No tracks available to add" };
+        return { success: false, error: 'No tracks available to add' };
       }
 
       // Generate playlist name based on time range
       const timeRangeLabels = {
-        short_term: "Last 4 Weeks",
-        medium_term: "Last 6 Months",
-        long_term: "All Time"
+        short_term: 'Last 4 Weeks',
+        medium_term: 'Last 6 Months',
+        long_term: 'All Time',
       };
-      const defaultName = playlistName || `My Top Tracks - ${timeRangeLabels[timeRange.value]}`;
-      const defaultDescription = playlistDescription || `Generated by Sporky on ${new Date().toLocaleDateString()}`;
+      const defaultName =
+        playlistName || `My Top Tracks - ${timeRangeLabels[timeRange.value]}`;
+      const defaultDescription =
+        playlistDescription ||
+        `Generated by Sporky on ${new Date().toLocaleDateString()}`;
 
       // Create the playlist
       const playlist = await createPlaylist(
         userProfile.value.id,
         defaultName,
         defaultDescription,
-        false // private by default
+        false, // private by default
       );
 
       // Add tracks to the playlist
@@ -271,12 +278,12 @@ export const useSporky = defineStore("sporky-store", () => {
 
       return {
         success: true,
-        playlistUrl: playlist.external_urls.spotify
+        playlistUrl: playlist.external_urls.spotify,
       };
     } catch (error: any) {
       return {
         success: false,
-        error: error.message || "Failed to create playlist"
+        error: error.message || 'Failed to create playlist',
       };
     }
   };

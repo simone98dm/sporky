@@ -54,9 +54,9 @@ export interface AlbumDTO {
 }
 
 export enum AlbumType {
-  Album = "ALBUM",
-  Compilation = "COMPILATION",
-  Single = "SINGLE",
+  Album = 'ALBUM',
+  Compilation = 'COMPILATION',
+  Single = 'SINGLE',
 }
 
 export interface ArtistDTO {
@@ -73,7 +73,7 @@ export interface ExternalUrls {
 }
 
 export enum ArtistType {
-  Artist = "artist",
+  Artist = 'artist',
 }
 
 export interface Image {
@@ -83,13 +83,13 @@ export interface Image {
 }
 
 export enum ReleaseDatePrecision {
-  Day = "day",
-  Month = "month",
-  Year = "year",
+  Day = 'day',
+  Month = 'month',
+  Year = 'year',
 }
 
 export enum AlbumTypeEnum {
-  Album = "album",
+  Album = 'album',
 }
 
 export interface ExternalIDS {
@@ -97,7 +97,7 @@ export interface ExternalIDS {
 }
 
 export enum ItemType {
-  Track = "track",
+  Track = 'track',
 }
 
 export interface CreatePlaylistResponse {
