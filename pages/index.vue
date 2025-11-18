@@ -168,7 +168,7 @@
           <!-- Right: Stats and Analytics (40% width) -->
           <div class="w-2/5 space-y-8">
             <!-- Stats Cards Section -->
-            <div class="space-y-6">
+            <div class="flex gap-4 flex-col">
               <h3 class="text-xl font-bold text-white">Your Stats</h3>
               <div class="grid grid-cols-1 gap-4">
                 <StatsCard
@@ -204,7 +204,7 @@
             </div>
 
             <!-- Enhanced Analytics Section -->
-            <div class="space-y-6">
+            <div class="flex gap-4 flex-col">
               <h3 class="text-xl font-bold text-white">Analytics</h3>
               <div class="space-y-6">
                 <!-- Top Artists Chart -->
@@ -216,7 +216,7 @@
             </div>
 
             <!-- Quick Actions -->
-            <div class="space-y-6">
+            <div class="flex gap-4 flex-col">
               <h3 class="text-xl font-bold text-white">Quick Actions</h3>
               <QuickActions :tracks="currentTracks" :time-range="timeRange" />
             </div>

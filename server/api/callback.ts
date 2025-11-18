@@ -1,5 +1,6 @@
-import { OAuthTokens } from '~/types';
+import type { OAuthTokens } from '~/types';
 import { COOKIE_NAME } from '~/utils/const';
+import { Buffer } from 'buffer';
 
 export default defineEventHandler(async (event) => {
   const {

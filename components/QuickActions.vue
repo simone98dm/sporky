@@ -22,7 +22,7 @@
       <span class="text-sm text-gray-400">Share & Export</span>
     </div>
 
-    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-4">
       <!-- Save to Spotify Playlist -->
       <button
         class="group relative p-4 bg-gradient-to-r from-green-500/20 to-emerald-500/20 hover:from-green-500/30 hover:to-emerald-500/30 border border-green-400/30 hover:border-green-400/50 rounded-2xl transition-all duration-300 transform hover:scale-105"
@@ -176,6 +176,37 @@
           </div>
         </div>
       </button>
+
+      <!-- Share Artists -->
+      <button
+        class="group relative p-4 bg-gradient-to-r from-orange-500/20 to-red-500/20 hover:from-orange-500/30 hover:to-red-500/30 border border-orange-400/30 hover:border-orange-400/50 rounded-2xl transition-all duration-300 transform hover:scale-105"
+        @click="shareArtists"
+        :disabled="isLoading"
+      >
+        <div class="flex items-center gap-3">
+          <div
+            class="w-10 h-10 bg-gradient-to-r from-orange-400 to-red-500 rounded-xl flex items-center justify-center"
+          >
+            <svg
+              class="w-5 h-5 text-white"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.367 2.684 3 3 0 00-5.367-2.684z"
+              />
+            </svg>
+          </div>
+          <div class="text-left">
+            <h4 class="text-white font-semibold">Share Artists</h4>
+            <p class="text-sm text-gray-300">Top 5 artists card</p>
+          </div>
+        </div>
+      </button>
     </div>
 
     <!-- Status Messages -->
@@ -198,6 +229,14 @@
       </p>
     </div>
   </div>
+
+  <!-- Share Modal -->
+  <ShareModal
+    :is-open="isShareModalOpen"
+    :top5-artists="sporkyStore.top5Artists"
+    :time-range="timeRange"
+    @close="isShareModalOpen = false"
+  />
 </template>
 
 <script setup lang="ts">
@@ -207,6 +246,7 @@
  */
 import { ref, onMounted, onUnmounted } from 'vue';
 import type { Track } from '~/types';
+import ShareModal from '~/components/ShareModal.vue';
 
 // Props Interface - Named [ComponentName]Props
 interface QuickActionsProps {
@@ -220,6 +260,7 @@ const { tracks, timeRange } = defineProps<QuickActionsProps>();
 const sporkyStore = useSporky();
 const showExportMenu = ref(false);
 const isLoading = ref(false);
+const isShareModalOpen = ref(false);
 const statusMessage = ref<{ type: 'success' | 'error'; text: string } | null>(
   null,
 );
@@ -374,6 +415,10 @@ const saveFavorites = () => {
   } finally {
     isLoading.value = false;
   }
+};
+
+const shareArtists = () => {
+  isShareModalOpen.value = true;
 };
 
 const showStatusMessage = (text: string, type: 'success' | 'error') => {

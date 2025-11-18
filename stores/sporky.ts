@@ -85,6 +85,27 @@ export const useSporky = defineStore('sporky-store', () => {
   const topArtistName = computed(() => topArtistData.value.name);
   const topArtistCount = computed(() => topArtistData.value.count);
 
+  // Top 5 artists for sharing
+  const top5Artists = computed(() => {
+    const artistCounts = new Map<string, number>();
+
+    currentTracks.value.forEach((track) => {
+      track.artists.forEach((artist) => {
+        const count = artistCounts.get(artist.name) || 0;
+        artistCounts.set(artist.name, count + 1);
+      });
+    });
+
+    return Array.from(artistCounts.entries())
+      .sort(([, a], [, b]) => b - a)
+      .slice(0, 5)
+      .map(([name, count], index) => ({
+        name,
+        count,
+        rank: index + 1,
+      }));
+  });
+
   // Helper functions
   const clearError = () => {
     errorMessage.value = null;
@@ -304,6 +325,7 @@ export const useSporky = defineStore('sporky-store', () => {
     topArtistData,
     topArtistName,
     topArtistCount,
+    top5Artists,
 
     // Actions
     login,
