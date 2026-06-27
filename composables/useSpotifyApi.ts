@@ -1,6 +1,6 @@
 import { SPOTIFY_API_BASE, COOKIE_NAME } from '~/utils/const';
 import { useErrorHandler } from './useErrorHandler';
-import type { UserDTO, TrackDTO } from '~/types';
+import type { UserDTO, TrackDTO, TrackDetails } from '~/types';
 
 /**
  * Composable for Spotify API interactions
@@ -64,30 +64,15 @@ export const useSpotifyApi = () => {
     });
   };
 
-  const createPlaylist = async (
-    userId: string,
-    name: string,
-    description?: string,
-    isPublic: boolean = false,
-  ): Promise<{ id: string; external_urls: { spotify: string } }> => {
-    return apiRequest(`/users/${userId}/playlists`, {
-      method: 'POST',
-      body: {
-        name,
-        description,
-        public: isPublic,
-      },
-    });
-  };
-
-  const addTracksToPlaylist = async (
-    playlistId: string,
-    trackUris: string[],
-  ): Promise<{ snapshot_id: string }> => {
-    return apiRequest(`/playlists/${playlistId}/tracks`, {
-      method: 'POST',
-      body: {
-        uris: trackUris,
+  // Full track objects (up to 50 ids). `market=from_token` is what populates
+  // preview_url, which /me/top/tracks frequently returns as null.
+  const getTracksByIds = (
+    ids: string[],
+  ): Promise<{ tracks: TrackDetails[] }> => {
+    return apiRequest<{ tracks: TrackDetails[] }>('/tracks', {
+      params: {
+        ids: ids.join(','),
+        market: 'from_token',
       },
     });
   };
@@ -95,8 +80,7 @@ export const useSpotifyApi = () => {
   return {
     getCurrentUser,
     getTopTracks,
-    createPlaylist,
-    addTracksToPlaylist,
+    getTracksByIds,
     apiRequest,
   };
 };

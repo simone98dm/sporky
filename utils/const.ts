@@ -20,10 +20,16 @@ export const TIME_RANGE_LABELS = {
   [TIME_RANGES.LONG_TERM]: 'Long term (1 year)',
 } as const;
 
+// Pill options for the time-period selector (Stitch design)
+export const TIME_RANGE_OPTIONS = [
+  { value: TIME_RANGES.SHORT_TERM, label: 'Last 4 Weeks', short: '4 Weeks' },
+  { value: TIME_RANGES.MEDIUM_TERM, label: 'Last 6 Months', short: '6 Months' },
+  { value: TIME_RANGES.LONG_TERM, label: 'All Time', short: '1 Year' },
+] as const;
+
 // API limits
 export const DEFAULT_TRACK_LIMIT = 10;
 export const MAX_TRACK_LIMIT = 50;
 
 // Spotify OAuth scopes
-export const SPOTIFY_SCOPES =
-  'user-top-read user-read-private user-read-email playlist-modify-public playlist-modify-private';
+export const SPOTIFY_SCOPES = 'user-top-read user-read-private user-read-email';

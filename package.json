@@ -4,9 +4,9 @@
   "type": "module",
   "scripts": {
     "build": "nuxt build",
-    "dev": "NODE_TLS_REJECT_UNAUTHORIZED=0 nuxt dev --https --ssl-cert cert/localhost.pem --ssl-key cert/localhost-key.pem",
-    "dev:http": "nuxt dev --port 3000",
-    "dev:https": "NODE_TLS_REJECT_UNAUTHORIZED=0 nuxt dev --https --ssl-cert cert/localhost.pem --ssl-key cert/localhost-key.pem --port 3000",
+    "dev": "NODE_TLS_REJECT_UNAUTHORIZED=0 nuxt dev --https --ssl-cert cert/localhost.pem --ssl-key cert/localhost-key.pem --host 127.0.0.1",
+    "dev:http": "nuxt dev --port 3000 --host 127.0.0.1",
+    "dev:https": "NODE_TLS_REJECT_UNAUTHORIZED=0 nuxt dev --https --ssl-cert cert/localhost.pem --ssl-key cert/localhost-key.pem --port 3000 --host 127.0.0.1",
     "generate": "nuxt generate",
     "preview": "nuxt preview",
     "postinstall": "nuxt prepare",
@@ -20,7 +20,6 @@
   "dependencies": {
     "@nuxtjs/tailwindcss": "^6.14.0",
     "@pinia/nuxt": "^0.11.3",
-    "html2canvas": "^1.4.1",
     "nuxt": "^4.2.1",
     "pinia": "^3.0.1",
     "prettier": "^3.6.2",

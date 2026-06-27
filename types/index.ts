@@ -9,12 +9,15 @@ export interface TrackDTO {
 }
 
 export interface Track {
+  id: string;
   name: string;
   artists: any[];
   album: string;
   cover: string;
   url: string;
   preview: string;
+  popularity: number;
+  duration: number;
 }
 
 export interface TrackDetails {
