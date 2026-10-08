@@ -124,7 +124,7 @@ export interface CreatePlaylistResponse {
 export interface UserDTO {
   country: string;
   display_name: string;
-  email: string;
+  email?: string; // only returned with the user-read-email scope, which Sporky doesn't request
   explicit_content: ExplicitContent;
   external_urls: ExternalUrls;
   followers: Followers;

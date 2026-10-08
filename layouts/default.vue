@@ -6,6 +6,7 @@
       class="relative z-10 flex-1 px-gutter pb-32 pt-24 md:ml-[280px] md:px-container-padding"
     >
       <slot />
+      <AppFooter class="mt-section-margin" />
     </main>
   </div>
 </template>

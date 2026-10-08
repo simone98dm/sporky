@@ -32,4 +32,9 @@ export const DEFAULT_TRACK_LIMIT = 10;
 export const MAX_TRACK_LIMIT = 50;
 
 // Spotify OAuth scopes
-export const SPOTIFY_SCOPES = 'user-top-read user-read-private user-read-email';
+export const SPOTIFY_SCOPES = 'user-top-read user-read-private';
+
+// Legal / privacy (see docs/privacy-audit.md). Bump the date when policies change.
+export const PRIVACY_CONTROLLER = 'Simone Dal Mas';
+export const PRIVACY_CONTACT_EMAIL = 'simone.dalmas@outlook.it';
+export const POLICY_LAST_UPDATED = '8 October 2026';

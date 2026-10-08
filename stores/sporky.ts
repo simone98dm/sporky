@@ -137,13 +137,13 @@ export const useSporky = defineStore('sporky-store', () => {
   const login = async () => {
     try {
       clearError();
-      const state = generateRandomString(16);
+      const state = generateRandomString(32);
 
       const authorizeUrl = `${SPOTIFY_AUTH_BASE}/authorize?client_id=${clientId}&response_type=code&redirect_uri=${encodeURIComponent(
         redirectUri,
       )}&scope=${encodeURIComponent(SPOTIFY_SCOPES)}&state=${state}`;
 
-      // Store state for validation (optional security enhancement)
+      // Store state; server/api/callback.ts rejects the callback if it doesn't match
       const stateCookie = useCookie(OAUTH_STATE_COOKIE);
       stateCookie.value = state;
 

@@ -1,5 +1,5 @@
 import type { OAuthTokens } from '~/types';
-import { COOKIE_NAME } from '~/utils/const';
+import { COOKIE_NAME, OAUTH_STATE_COOKIE } from '~/utils/const';
 import { Buffer } from 'buffer';
 
 export default defineEventHandler(async (event) => {
@@ -10,9 +10,18 @@ export default defineEventHandler(async (event) => {
 
   const { code, state, error } = getQuery(event);
 
+  // One-shot: the state cookie is only valid for this callback.
+  const expectedState = getCookie(event, OAUTH_STATE_COOKIE);
+  deleteCookie(event, OAUTH_STATE_COOKIE, { path: '/' });
+
   try {
     if (error) {
       return sendRedirect(event, `/login?error=${error}`);
+    }
+
+    // Reject callbacks not started by this browser's login() (login CSRF).
+    if (!state || !expectedState || state !== expectedState) {
+      return sendRedirect(event, '/login?error=state_mismatch');
     }
 
     if (!code) {

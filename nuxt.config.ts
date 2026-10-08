@@ -2,7 +2,12 @@ export default defineNuxtConfig({
   modules: ['@nuxtjs/tailwindcss', '@pinia/nuxt'],
   compatibilityDate: '2024-11-01',
   devtools: { enabled: true },
-  css: ['~/assets/css/main.css'],
+  // Fonts are self-hosted so no visitor IP is sent to Google (see docs/privacy-audit.md).
+  css: [
+    '@fontsource-variable/inter',
+    'material-symbols/outlined.css',
+    '~/assets/css/main.css',
+  ],
   app: {
     head: {
       title: 'Sporky - Your Music Journey',
@@ -38,20 +43,6 @@ export default defineNuxtConfig({
           href: '/favicon-16x16.png',
         },
         { rel: 'manifest', href: '/site.webmanifest' },
-        { rel: 'preconnect', href: 'https://fonts.googleapis.com' },
-        {
-          rel: 'preconnect',
-          href: 'https://fonts.gstatic.com',
-          crossorigin: 'anonymous',
-        },
-        {
-          rel: 'stylesheet',
-          href: 'https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap',
-        },
-        {
-          rel: 'stylesheet',
-          href: 'https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&display=swap',
-        },
       ],
     },
   },

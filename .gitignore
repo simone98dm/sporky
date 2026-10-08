@@ -24,3 +24,8 @@ logs
 !.env.example
 
 cert
+
+
+.claude-flow
+.swarm
+ruvector.db

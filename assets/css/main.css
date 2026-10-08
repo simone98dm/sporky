@@ -1,6 +1,6 @@
 :root {
   font-family:
-    'Inter',
+    'Inter Variable',
     system-ui,
     -apple-system,
     BlinkMacSystemFont,
@@ -96,4 +96,38 @@ body {
 }
 ::-webkit-scrollbar-thumb:hover {
   background: #535353;
+}
+
+/* Legal pages (privacy / cookie policy) */
+.legal-prose h1 {
+  @apply mb-2 text-display-lg-mobile text-on-surface md:text-display-lg;
+}
+.legal-prose h2 {
+  @apply mb-3 mt-10 text-headline-md text-on-surface;
+}
+.legal-prose h3 {
+  @apply mb-2 mt-6 text-body-lg font-semibold text-on-surface;
+}
+.legal-prose p,
+.legal-prose li {
+  @apply text-body-lg text-on-surface-variant;
+}
+.legal-prose p {
+  @apply mb-4;
+}
+.legal-prose ul {
+  @apply mb-4 list-disc space-y-1 pl-6;
+}
+.legal-prose a {
+  @apply text-primary underline underline-offset-4 hover:text-primary-fixed;
+}
+.legal-prose table {
+  @apply w-full border-collapse text-left text-body-sm;
+}
+.legal-prose th,
+.legal-prose td {
+  @apply border-b border-outline-variant px-3 py-2 align-top text-on-surface-variant;
+}
+.legal-prose th {
+  @apply font-semibold text-on-surface;
 }

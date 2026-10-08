@@ -1,11 +1,13 @@
+const PUBLIC_ROUTES = ['/login', '/privacy', '/cookies'];
+
 export default defineNuxtPlugin(() => {
   const { $router } = useNuxtApp();
 
   // Add global navigation guard
   $router.beforeEach(async (to, from) => {
-    // Skip auth check for login and API routes
+    // Skip auth check for public routes (login, legal pages) and API routes
     if (
-      to.path === '/login' ||
+      PUBLIC_ROUTES.includes(to.path) ||
       to.path === '/debug' ||
       to.path.startsWith('/api/')
     ) {

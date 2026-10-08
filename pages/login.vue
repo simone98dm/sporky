@@ -78,11 +78,16 @@
           <p
             class="max-w-[280px] pt-6 text-center text-body-sm text-on-surface-variant/60"
           >
-            By connecting, you agree to our Terms of Service and Privacy Policy.
+            By connecting, Sporky reads your Spotify profile and top tracks as
+            described in the
+            <NuxtLink to="/privacy" class="underline underline-offset-4"
+              >Privacy Policy</NuxtLink
+            >.
           </p>
         </div>
       </div>
     </div>
+    <AppFooter class="relative z-10" />
   </div>
 </template>
 
@@ -112,6 +117,8 @@ const errorMessage = computed(() => {
       return 'Access was denied. Please try again.';
     case 'no_code':
       return 'Authorization failed. Please try again.';
+    case 'state_mismatch':
+      return 'Login session expired or was tampered with. Please try again.';
     case 'auth_failed':
       return 'Authentication failed. Please check your credentials.';
     case 'true':

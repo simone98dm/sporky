@@ -57,7 +57,7 @@ export default <Partial<Config>>{
         'on-error-container': '#ffdad6',
       },
       fontFamily: {
-        sans: ['Inter', 'system-ui', 'sans-serif'],
+        sans: ['Inter Variable', 'system-ui', 'sans-serif'],
       },
       fontSize: {
         'display-lg': [
